@@ -9,6 +9,67 @@ export type User = {
     verified: boolean;
     status: string;
 };
+
+export type Izin = {
+    id: number;
+    name: string;
+    company: string;
+    role: string;
+    verified: boolean;
+    status: string;
+};
+
+export type Presensi = {
+    id: number;
+    name: string;
+    company: string;
+    role: string;
+    verified: boolean;
+    status: string;
+};
+
+export type Divisi = {
+    id: number;
+    nama: string;
+};
+
+export type Role = {
+    id: number;
+    name: string;
+};
+
+export type Status = {
+    id: string;
+    nama: string;
+};
+
+export const status: Status[] = [
+    {
+        id: "1",
+        nama: "Tepat Waktu",
+    },
+    {
+        id: "2",
+        nama: "Terlambat",
+    },
+    {
+        id: "3",
+        nama: "Alpha",
+    },
+    {
+        id: "4",
+        nama: "Izin Diajukan",
+    },
+    {
+        id: "5",
+        nama: "Izin Disetujui",
+    },
+    {
+        id: "6",
+        nama: "Izin Ditolak",
+    }
+];
+
 export const users: User[] = [
     {
         id: 1,
@@ -92,6 +153,45 @@ export const users: User[] = [
     },
 ];
 
+export const role: Role[] = [
+    {
+        id: 1,
+        name: "Admin",
+    },
+    {
+        id: 2,
+        name: "Karyawan",
+    },
+    {
+        id: 3,
+        name: "Supervisor",
+    },
+
+];
+
+export const divisi: Divisi[] = [
+    {
+        id: 1,
+        nama: "IT",
+    },
+    {
+        id: 2,
+        nama: "HRD",
+    },
+    {
+        id: 3,
+        nama: "Finance",
+    },
+    {
+        id: 4,
+        nama: "Marketing",
+    },
+    {
+        id: 5,
+        nama: "Operasional",
+    },
+];
+
 export type Employee = {
     id: number;
     first_name: string;
@@ -111,43 +211,13 @@ export type Employee = {
     profile_picture?: string | null; // Profile picture can be a string (URL) or null (if no picture)
 };
 
-export const navItems: NavItem[] = [
+export const karyawanItems: NavItem[] = [
     {
         title: "Dashboard",
         href: "/karyawan/dashboard",
         icon: "dashboard",
         label: "Dashboard",
     },
-    // {
-    //     title: "User",
-    //     href: "/dashboard/user",
-    //     icon: "user",
-    //     label: "user",
-    // },
-    // {
-    //     title: "Employee",
-    //     href: "/dashboard/employee",
-    //     icon: "employee",
-    //     label: "employee",
-    // },
-    // {
-    //     title: "Profile",
-    //     href: "/dashboard/profile",
-    //     icon: "profile",
-    //     label: "profile",
-    // },
-    // {
-    //     title: "Kanban",
-    //     href: "/dashboard/kanban",
-    //     icon: "kanban",
-    //     label: "kanban",
-    // },
-    // {
-    //     title: "Login",
-    //     href: "/",
-    //     icon: "login",
-    //     label: "login",
-    // },
     {
         title: "Presensi",
         href: "/karyawan/presensi",
@@ -157,6 +227,79 @@ export const navItems: NavItem[] = [
     {
         title: "Pengajuan Izin",
         href: "/karyawan/pengajuan-izin",
+        icon: "page",
+        label: "Pengajuan Izin",
+    }
+];
+
+export const adminItems: NavItem[] = [
+    {
+        title: "Dashboard",
+        href: "/admin/dashboard",
+        icon: "dashboard",
+        label: "Dashboard",
+    },
+    {
+        title: "User Management",
+        href: "/admin/user-mgmt",
+        icon: "employee",
+        label: "User Management",
+    },
+    {
+        title: "Data Izin",
+        href: "/admin/data-izin",
+        icon: "post",
+        label: "Data Izin",
+    },
+    {
+        title: "Data Presensi",
+        href: "/admin/data-presensi",
+        icon: "page",
+        label: "Data Presensi",
+    },
+    {
+        title: "Master Status",
+        href: "/admin/master-status",
+        icon: "bookCopy",
+        label: "Master Status",
+    },
+    {
+        title: "Master Role",
+        href: "/admin/master-role",
+        icon: "userCog",
+        label: "Master Role"
+    },
+    {
+        title: "Master Divisi",
+        href: "/admin/master-divisi",
+        icon: "shieldHalf",
+        label: "Master Divisi"
+    }
+];
+
+
+export const supervisorItems: NavItem[] = [
+    {
+        title: "Dashboard",
+        href: "/supervisor/dashboard",
+        icon: "dashboard",
+        label: "Dashboard",
+    },
+    {   
+        title: "Data Karyawan",
+        href: "/supervisor/data-karyawan",
+        icon: "employee",
+        label: "Data Karyawan",
+    },
+    {
+        title: "Data Presensi Karyawan",
+        href: "/supervisor/presensi-karyawan",
+        icon: "login",
+        label: "Presensi",
+    },
+    {
+        title: "Data Izin Karyawan",
+        href: "/supervisor/izin-karyawan",
         icon: "page",
         label: "Pengajuan Izin",
     }

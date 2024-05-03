@@ -21,43 +21,35 @@ export default function DashboardPage() {
                 </div>
                 <Tabs defaultValue="overview" className="space-y-4">
                     <TabsContent value="overview" className="space-y-4">
-                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                            <Card className="bg-green-400 flex flex-col gap-1">
+                        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-3">
+                            <Card className="flex flex-col gap-1">
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-md font-medium text-white">
-                                        Tepat Waktu
+                                    <CardTitle className="text-md font-medium ">
+                                        Jumlah Karyawan
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold text-white">10</div>
+                                    <div className="text-2xl font-bold ">20</div>
                                 </CardContent>
                             </Card>
-                            <Card className="bg-orange-400 flex flex-col gap-1">
+                            <Card className="flex flex-col gap-1">
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-md font-medium text-white">
-                                        Telat
+                                    <CardTitle className="text-md font-medium">
+                                        Jumlah Karyawan yang telah Presensi
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold text-white">0</div>
+                                    <div className="text-2xl font-bold">10</div>
                                 </CardContent>
                             </Card>
-                            <Card className="bg-red-500 flex flex-col gap-1">
+                            <Card className="flex flex-col gap-1">
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-md font-medium text-white">Alpha</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-2xl font-bold text-white">1</div>
-                                </CardContent>
-                            </Card>
-                            <Card className="bg-blue-500 flex flex-col gap-1">
-                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-md font-medium text-white">
-                                        Izin
+                                    <CardTitle className="text-md font-medium">
+                                        Jumlah Karyawan yang Izin
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold text-white">2</div>
+                                    <div className="text-2xl font-bold">0</div>
                                 </CardContent>
                             </Card>
                         </div>
