@@ -9,8 +9,26 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import Clock from 'react-live-clock';
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 export default function DashboardPage() {
+    const [response, setResponse] = useState([])
+
+    const fetchResponse = async () => {
+        try {
+            const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/supervisor/")
+            const data = response.data
+            setResponse(data)
+        } catch (error) {
+            console.error("Fetch dashboard data error", error)
+        }
+    }
+
+    useEffect(() => {
+        fetchResponse()
+    }, [])
+
     return (
         <ScrollArea className="h-full">
             <div className="flex-1 space-y-4 p-5 md:p-8 pt-16">
@@ -22,7 +40,19 @@ export default function DashboardPage() {
                 <Tabs defaultValue="overview" className="space-y-4">
                     <TabsContent value="overview" className="space-y-4">
                         <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-3">
-                            <Card className="flex flex-col gap-1">
+                            {response.map((data: any) => (
+                                <Card className="flex flex-col gap-1">
+                                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                        <CardTitle className="text-md font-medium ">
+                                            {data.kolom}
+                                        </CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="text-2xl font-bold ">{data.total}</div>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                            {/* <Card className="flex flex-col gap-1">
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                     <CardTitle className="text-md font-medium ">
                                         Jumlah Karyawan
@@ -51,7 +81,7 @@ export default function DashboardPage() {
                                 <CardContent>
                                     <div className="text-2xl font-bold">0</div>
                                 </CardContent>
-                            </Card>
+                            </Card> */}
                         </div>
                         <div className="flex max-w-full md:grid-cols-2 lg:grid-cols-7">
                             <Card className="w-full">

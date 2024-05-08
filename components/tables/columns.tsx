@@ -8,7 +8,8 @@ import {
     Presensi,
     Divisi,
     Role,
-    Status
+    Status,
+    Gedung
 } from "@/constants/data";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -61,7 +62,7 @@ export const statusColumns: ColumnDef<Status>[] = [
         header: "ID",
     },
     {
-        accessorKey: "nama",
+        accessorKey: "nama_status",
         header: "NAMA STATUS",
     },
     {
@@ -78,7 +79,7 @@ export const roleColumns: ColumnDef<Role>[] = [
         header: "ID",
     },
     {
-        accessorKey: "name",
+        accessorKey: "nama_role",
         header: "NAMA ROLE",
     },
     {
@@ -94,7 +95,7 @@ export const divisiColumns: ColumnDef<Divisi>[] = [
         header: "ID",
     },
     {
-        accessorKey: "nama",
+        accessorKey: "nama_divisi",
         header: "NAMA DIVISI",
     },
     {
@@ -103,3 +104,91 @@ export const divisiColumns: ColumnDef<Divisi>[] = [
         cell: ({ row }) => <CellAction data={row.original} />,
     }
 ];
+
+
+export const presensiColumns: ColumnDef<Presensi>[] = [
+    {
+        accessorKey: "id",
+        header: "NIP",
+    },
+    {
+        accessorKey: "nama",
+        header: "NAMA",
+    },
+    {
+        accessorKey: "tanggal",
+        header: "TANGGAL",
+    },
+    {
+        accessorKey: "jam_masuk",
+        header: "JAM MASUK",
+    },
+];
+
+export const izinColumns: ColumnDef<Izin>[] = [
+    {
+        accessorKey: "id",
+        header: "ID",
+    },
+    {
+        accessorKey: "name",
+        header: "NAMA",
+    },
+    {
+        accessorKey: "keterangan",
+        header: "KETERANGAN"
+    },
+    {
+        accessorKey: "tanggal",
+        header: "TANGGAL"
+    },
+    {
+        accessorKey: "status",
+        header: "STATUS"
+    },
+    {
+        header: "ACTIONS",
+        id: "actions",
+        cell: ({ row }) => <CellAction data={row.original} />,
+    }
+]
+
+
+export const gedungColumns: ColumnDef<Gedung>[] = [
+    {
+        accessorKey: "id",
+        header: "ID"
+    },
+    {
+        accessorKey: "nama_gedung",
+        header: "NAMA GEDUNG"
+    },
+    {
+        accessorKey: "latitude",
+        header: "Latitude"
+    },
+    {
+        accessorKey: "longitude",
+        header: "Longitude"
+    }
+]
+
+export const karyawanColumns: ColumnDef<User>[] = [
+    {
+        accessorKey: "id",
+        header: "NIP"
+    },
+    {
+        accessorKey: "Nama",
+        header: "Nama Karyawan"
+    },
+    {
+        accessorKey: "divisi",
+        header: "Divisi"
+    },
+    {
+        header: "ACTIONS",
+        id: "actions",
+        cell: ({ row }) => <CellAction data={row.original} />,
+    }
+]
