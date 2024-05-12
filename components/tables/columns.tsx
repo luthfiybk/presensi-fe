@@ -131,7 +131,7 @@ export const izinColumns: ColumnDef<Izin>[] = [
         header: "ID",
     },
     {
-        accessorKey: "name",
+        accessorKey: "nama",
         header: "NAMA",
     },
     {

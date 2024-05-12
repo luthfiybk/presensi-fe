@@ -13,7 +13,13 @@ export default function IzinKaryawanPage() {
         try {
             const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/supervisor/izin")
             const data = response.data
-            setIzin(data)
+            const mappedData = data.map((item: any) => {
+                return {
+                    ...item,
+                    tanggal: (item.tanggal.slice(0, 10))
+                }
+            })
+            setIzin(mappedData)
         } catch (error: any) {
             console.error("Fetch izin error", error.message)
         }

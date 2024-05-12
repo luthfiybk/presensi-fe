@@ -89,7 +89,7 @@ export default function DashboardPage() {
                                     <CardTitle>Jam</CardTitle>
                                 </CardHeader>
                                 <CardContent className="flex justify-end">
-                                    <Clock format={'HH:mm:ss'} ticking={true} timezone={'Asia/Jakarta'} className="text-5xl font-extrabold" />
+                                    <Clock format={'HH:mm:ss'} ticking={true} timezone={'Asia/Jakarta'} className="text-5xl font-extrabold" noSsr />
                                 </CardContent>
                             </Card>
                         </div>
