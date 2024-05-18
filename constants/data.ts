@@ -3,6 +3,7 @@ import { NavItem, SidebarNavItem } from "@/types";
 
 export type User = {
     id: string;
+    nip: string
     nama: string;
     email?: string;
     role?: string;

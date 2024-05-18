@@ -1,6 +1,6 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 import { 
     User,
@@ -12,49 +12,51 @@ import {
     Gedung
 } from "@/constants/data";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "../ui/badge";
 
-export const userColumns: ColumnDef<User>[] = [
-    {
-        id: "select",
-        header: ({ table }) => (
-            <Checkbox
-                checked={table.getIsAllPageRowsSelected()}
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Select all"
-            />
-        ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
-        ),
-        enableSorting: false,
-        enableHiding: false,
-    },
-    {
-        accessorKey: "name",
-        header: "NAME",
-    },
-    {
-        accessorKey: "company",
-        header: "COMPANY",
-    },
-    {
-        accessorKey: "role",
-        header: "ROLE",
-    },
-    {
-        accessorKey: "divisi",
-        header: "DIVISI",
-    },
-    {
-        header: "ACTIONS",
-        id: "actions",
-        cell: ({ row }) => <CellAction data={row.original} />,
-    },
-];
+export const createUserColumns = (dynamicLink: string) => {
+    const userColumns: ColumnDef<User>[] = [
+        {
+            id: "select",
+            header: ({ table }) => (
+                <Checkbox
+                    checked={table.getIsAllPageRowsSelected()}
+                    onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                    aria-label="Select all"
+                />
+            ),
+            cell: ({ row }) => (
+                <Checkbox
+                    checked={row.getIsSelected()}
+                    onCheckedChange={(value) => row.toggleSelected(!!value)}
+                    aria-label="Select row"
+                />
+            ),
+            enableSorting: false,
+            enableHiding: false,
+        },
+        {
+            accessorKey: "nama",
+            header: "NAMA",
+        },
+        {
+            accessorKey: "nama_role",
+            header: "ROLE",
+            cell: ({ row }: any) => <Badge variant="secondary">{row.original.nama_role}</Badge>,
+        },
+        {
+            accessorKey: "nama_divisi",
+            header: "DIVISI",
+        },
+        {
+            header: "ACTIONS",
+            id: "actions",
+            cell: ({ row }) => <CellAction data={row.original} link={dynamicLink} />,
+        },
+    ];
+
+    return userColumns
+}
 
 export const statusColumns: ColumnDef<Status>[] = [
     {
@@ -85,7 +87,7 @@ export const roleColumns: ColumnDef<Role>[] = [
     {
         header: "ACTIONS",
         id: "actions",
-        cell: ({ row }) => <CellAction data={row.original} />,
+        cell: ({ row }) => <CellAction data={row.original}  />,
     }
 ];
 
@@ -108,7 +110,7 @@ export const divisiColumns: ColumnDef<Divisi>[] = [
 
 export const presensiColumns: ColumnDef<Presensi>[] = [
     {
-        accessorKey: "id",
+        accessorKey: "nip",
         header: "NIP",
     },
     {
@@ -120,75 +122,85 @@ export const presensiColumns: ColumnDef<Presensi>[] = [
         header: "TANGGAL",
     },
     {
-        accessorKey: "jam_masuk",
+        accessorKey: "jamMasuk",
         header: "JAM MASUK",
     },
 ];
 
-export const izinColumns: ColumnDef<Izin>[] = [
-    {
-        accessorKey: "id",
-        header: "ID",
-    },
-    {
-        accessorKey: "nama",
-        header: "NAMA",
-    },
-    {
-        accessorKey: "keterangan",
-        header: "KETERANGAN"
-    },
-    {
-        accessorKey: "tanggal",
-        header: "TANGGAL"
-    },
-    {
-        accessorKey: "status",
-        header: "STATUS"
-    },
-    {
-        header: "ACTIONS",
-        id: "actions",
-        cell: ({ row }) => <CellAction data={row.original} />,
-    }
-]
+export const createIzinColumns = (dynamicLink: string) => {
+    const izinColumns: ColumnDef<Izin>[] = [
+        {
+            accessorKey: "nip",
+            header: "NIP",
+        },
+        {
+            accessorKey: "nama",
+            header: "NAMA",
+        },
+        {
+            accessorKey: "keterangan",
+            header: "KETERANGAN",
+        },
+        {
+            accessorKey: "tanggal",
+            header: "TANGGAL",
+        },
+        {
+            accessorKey: "nama_status",
+            header: "STATUS",
+            cell: ({ row }: any) => <Badge variant="secondary" className={row.original.statusId === 4 ? `text-black` : row.original.statusId === 5 ? `bg-green-500 text-white hover:bg-green-500` : `bg-red-500 text-white hover:bg-red-500`} >{row.original.nama_status}</Badge>,
+        },
+        {
+            header: "ACTIONS",
+            id: "actions",
+            cell: ({ row }) => <CellAction data={row.original} link={dynamicLink} />,
+        }
+    ]
+
+    return izinColumns
+}
+
 
 
 export const gedungColumns: ColumnDef<Gedung>[] = [
     {
         accessorKey: "id",
-        header: "ID"
+        header: "ID",
     },
     {
         accessorKey: "nama_gedung",
-        header: "NAMA GEDUNG"
+        header: "NAMA GEDUNG",
     },
     {
         accessorKey: "latitude",
-        header: "Latitude"
+        header: "Latitude",
     },
     {
         accessorKey: "longitude",
-        header: "Longitude"
+        header: "Longitude",
     }
 ]
 
-export const karyawanColumns: ColumnDef<User>[] = [
-    {
-        accessorKey: "id",
-        header: "NIP"
-    },
-    {
-        accessorKey: "Nama",
-        header: "Nama Karyawan"
-    },
-    {
-        accessorKey: "divisi",
-        header: "Divisi"
-    },
-    {
-        header: "ACTIONS",
-        id: "actions",
-        cell: ({ row }) => <CellAction data={row.original} />,
-    }
-]
+export const createKaryawanColumns = (dynamicLink: string) => {
+    const karyawanColumns: ColumnDef<User>[] = [
+        {
+            accessorKey: "nip",
+            header: "NIP",
+        },
+        {
+            accessorKey: "nama",
+            header: "Nama Karyawan",
+        },
+        {
+            accessorKey: "nama_divisi",
+            header: "Divisi",
+        },
+        {
+            header: "ACTIONS",
+            id: "actions",
+            cell: ({ row }) => <CellAction data={row.original} link={dynamicLink} />,
+        }
+    ]
+
+    return karyawanColumns
+}

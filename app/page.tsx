@@ -40,24 +40,25 @@ export default function Login() {
 
         try {
             const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + "/auth/login", data)
-            console.log(response.data)
-            const token = response.data.token
+            const user = response.data
+
+            const token = user.token
 
             auth.login(token)
 
             await auth.fetchUser()
 
-            if(response.data.roleId === 1) {
+            if(user.roleId === 1) {
                 router.push("/admin/dashboard")
-            } else if (response.data.roleId === 2) {
+            } else if (user.roleId === 2) {
                 router.push("/karyawan")
-            } else if (response.data.roleId === 3) {
+            } else if (user.roleId === 3) {
                 router.push("/supervisor/dashboard")
             } else {
-                router.push("/login")
+                console.error("Role tidak ditemukan")
             }
-        } catch (error) {
-            alert("Login gagal")
+        } catch (error: any) {
+            alert(error.message)
         }
     }
 

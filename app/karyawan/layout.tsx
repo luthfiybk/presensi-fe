@@ -18,7 +18,7 @@ export default function PresensiLayout({
             <Header link="http://localhost:3000/karyawan/dashboard" items={karyawanItems} />
             <div className="flex h-full">
                 <Sidebar items={karyawanItems} />
-                <main className="w-full pt-16">{children}</main>
+                <main className="w-full pt-16 h-full">{children}</main>
             </div>
         </>
     );

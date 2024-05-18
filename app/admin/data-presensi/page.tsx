@@ -13,7 +13,14 @@ export default function DataPresensiPage() {
         try {
             const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/presensi/")
             const data = response.data
-            setPresensi(data)
+            const mappedData = data.map((item: any) => {
+                return {
+                    ...item,
+                    tanggal: (item.tanggal.slice(0, 10)),
+                    jamMasuk: (item.jamMasuk.slice(11, 16)),
+                }
+            })
+            setPresensi(mappedData)
         } catch (error) {
             console.error("Fetch presensi error", error)
         }

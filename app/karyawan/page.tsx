@@ -60,7 +60,7 @@ export default function PresensiPage() {
 
     return (
         <>
-            <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
+            <div className="flex-1 h-full space-y-4 p-4 md:p-8 pt-6">
                 {/* <BreadCrumb items={breadcrumbItems} /> */}
                 <div className="flex w-full justify-center">
                     <div className="flex flex-col gap-2 items-center" suppressHydrationWarning>

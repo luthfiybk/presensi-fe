@@ -6,15 +6,18 @@ import { Separator } from "@/components/ui/separator";
 import { User } from "@/constants/data";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { karyawanColumns } from "../columns";
+import { createKaryawanColumns } from "../columns";
 import { Heading } from "@/components/ui/heading";
+import { Icons } from "@/components/icons";
 
 interface ProductsClientProps {
     data: User[];
+    path: string
 }
 
-export const KaryawanClient = ({ data }: ProductsClientProps) => {
+export const KaryawanClient = ({ data, path }: ProductsClientProps) => {
     const router = useRouter();
+    const karyawanColumns = createKaryawanColumns(path)
 
     return (
         <>
@@ -24,10 +27,10 @@ export const KaryawanClient = ({ data }: ProductsClientProps) => {
                     // description="Manage users (Client side table functionalities.)"
                 />
                 <Button
-                    className="text-xs md:text-sm"
+                    className="bg-[#6DBE45] text-xs md:text-sm"
                     onClick={() => router.push(`/dashboard/user/new`)}
                 >
-                    <Plus className="mr-2 h-4 w-4" /> Add New
+                    <Icons.download className="mr-2 h-4 w-4" /> Download
                 </Button>
             </div>
             <Separator />

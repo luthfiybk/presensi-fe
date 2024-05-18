@@ -4,17 +4,19 @@ import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { Separator } from "@/components/ui/separator";
 import { Izin } from "@/constants/data";
-import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { izinColumns } from "../columns";
+import { createIzinColumns } from "../columns";
 import { Heading } from "@/components/ui/heading";
+import { Icons } from "@/components/icons";
 
 interface ProductsClientProps {
     data: Izin[];
+    path: string
 }
 
-export const IzinClient = ({ data }: ProductsClientProps) => {
+export const IzinClient = ({ data, path }: ProductsClientProps) => {
     const router = useRouter();
+    const izinColumns = createIzinColumns(path)
 
     return (
         <>
@@ -24,10 +26,10 @@ export const IzinClient = ({ data }: ProductsClientProps) => {
                     // description="Manage users (Client side table functionalities.)"
                 />
                 <Button
-                    className="text-xs md:text-sm"
+                    className="bg-[#6DBE45] text-xs md:text-sm"
                     onClick={() => router.push(`/dashboard/user/new`)}
                 >
-                    <Plus className="mr-2 h-4 w-4" /> Add New
+                    <Icons.download className="mr-2 h-4 w-4" /> Download
                 </Button>
             </div>
             <Separator />

@@ -35,7 +35,8 @@ import {
     BookCopy,
     UserCog,
     ShieldHalf,
-    Building
+    Building,
+    Download
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -73,6 +74,7 @@ export const Icons = {
     userCog: UserCog,
     shieldHalf: ShieldHalf,
     building: Building,
+    download: Download,
     gitHub: ({ ...props }: LucideProps) => (
         <svg
             aria-hidden="true"

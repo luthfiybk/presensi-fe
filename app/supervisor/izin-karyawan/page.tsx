@@ -4,10 +4,12 @@ import BreadCrumb from "@/components/breadcrumb"
 import { IzinClient } from "@/components/tables/izin-tables/client"
 import { izin } from "@/constants/data"
 import axios from "axios"
+import { usePathname } from "next/navigation"
 import { useState, useEffect } from "react"
 
 export default function IzinKaryawanPage() {
     const [izin, setIzin] = useState([])
+    const pathname = usePathname()
 
     const fetchIzin = async () => {
         try {
@@ -33,7 +35,7 @@ export default function IzinKaryawanPage() {
         <>
             <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
                 <BreadCrumb items={[{ title: "Izin Karyawan", link: "/supervisor/izin-karyawan" }]} />
-                <IzinClient data={izin} />
+                <IzinClient data={izin} path={pathname} />
             </div>
         </>
     )

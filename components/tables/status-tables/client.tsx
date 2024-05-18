@@ -8,6 +8,7 @@ import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { statusColumns } from "../columns";
 import { Heading } from "@/components/ui/heading";
+import { Icons } from "@/components/icons";
 
 interface ProductsClientProps {
     data: Status[];
@@ -23,12 +24,6 @@ export const StatusClient = ({ data }: ProductsClientProps) => {
                     title={`Status  (${data.length})`}
                     // description="Manage users (Client side table functionalities.)"
                 />
-                <Button
-                    className="text-xs md:text-sm"
-                    onClick={() => router.push(`/dashboard/user/new`)}
-                >
-                    <Plus className="mr-2 h-4 w-4" /> Add New
-                </Button>
             </div>
             <Separator />
             <DataTable searchKey="status" columns={statusColumns} data={data} />
