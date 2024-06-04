@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { createIzinColumns } from "../columns";
 import { Heading } from "@/components/ui/heading";
 import { Icons } from "@/components/icons";
+import { handlePrintIzin } from "./izin-pdf";
 
 interface ProductsClientProps {
     data: Izin[];
@@ -15,8 +16,12 @@ interface ProductsClientProps {
 }
 
 export const IzinClient = ({ data, path }: ProductsClientProps) => {
-    const router = useRouter();
     const izinColumns = createIzinColumns(path)
+    const downloadPDF = () => {
+        handlePrintIzin({ data });
+    };
+
+    console.log(data)
 
     return (
         <>
@@ -25,12 +30,13 @@ export const IzinClient = ({ data, path }: ProductsClientProps) => {
                     title={`Izin  (${data.length})`}
                     // description="Manage users (Client side table functionalities.)"
                 />
+                {path.includes('supervisor') && (
                 <Button
                     className="bg-[#6DBE45] text-xs md:text-sm"
-                    onClick={() => router.push(`/dashboard/user/new`)}
+                    onClick={downloadPDF}
                 >
                     <Icons.download className="mr-2 h-4 w-4" /> Download
-                </Button>
+                </Button>)}
             </div>
             <Separator />
             <DataTable searchKey="izin" columns={izinColumns} data={data} />

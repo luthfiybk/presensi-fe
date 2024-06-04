@@ -6,27 +6,40 @@ import { Skeleton } from './ui/skeleton';
 interface IGmapsProps {
     width: string;
     height: string;
+    latitude?: number
+    longitude?: number
 }
 
-export default function Gmaps({ width, height }: IGmapsProps) {
+export default function Gmaps({ width, height, latitude, longitude }: IGmapsProps) {
     const [center, setCenter] = useState({ lat: 0, lng: 0 });
 
     useEffect(() => {
         // Mendapatkan lokasi pengguna saat komponen dimuat
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                const { latitude, longitude } = position.coords;
-                setCenter({ lat: latitude, lng: longitude });
-            },
-            error => {
-                console.error('Error getting user location:', error);
-            }
-        );
+        if (latitude && longitude) {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    setCenter({ lat: latitude, lng: longitude });
+                },
+                error => {
+                    console.error('Error getting user location:', error);
+                }
+            )
+        } else {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    const { latitude, longitude } = position.coords;
+                    setCenter({ lat: latitude, lng: longitude });
+                },
+                error => {
+                    console.error('Error getting user location:', error);
+                }
+            );
+        }
     }, []);
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: process.env.NEXT_PUBLIC_GMAPS_API_KEY || ''
+        googleMapsApiKey: process.env.NEXT_PUBLIC_GMAPS_API_KEY as string
     })
 
     const [map, setMap] = useState(null)

@@ -19,6 +19,17 @@ export default function RolePage() {
         }
     }
 
+    const handleUpdate = async () => {
+        const id: any = role.find((role: any) => role.id === id);
+        try {
+            const response = await axios.put(process.env.NEXT_PUBLIC_API_URL + `/role/${id}`);
+            const data = response.data;
+            setRole(data);
+        } catch (error) {
+            console.error("Update Role Error", error);
+        }
+    }
+
     useEffect(() => {
         fetchRole();
     }, []);
@@ -28,7 +39,7 @@ export default function RolePage() {
         <>
             <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
                 <BreadCrumb items={breadcrumbItems} />
-                <RoleClient data={role} />
+                <RoleClient data={role} edit={() => handleUpdate} />
             </div>
         </>
     );

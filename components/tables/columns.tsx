@@ -9,7 +9,7 @@ import {
     Divisi,
     Role,
     Status,
-    Gedung
+    Titik
 } from "@/constants/data";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "../ui/badge";
@@ -40,13 +40,18 @@ export const createUserColumns = (dynamicLink: string) => {
             header: "NAMA",
         },
         {
-            accessorKey: "nama_role",
+            accessorKey: "role",
             header: "ROLE",
-            cell: ({ row }: any) => <Badge variant="secondary">{row.original.nama_role}</Badge>,
+            cell: ({ row }: any) => <Badge variant="secondary">{row.original.role}</Badge>,
         },
         {
-            accessorKey: "nama_divisi",
+            accessorKey: "divisi",
             header: "DIVISI",
+            cell: ({ row }: any) => <>{row.original.divisi !== null ? row.original.divisi : '-'}</>,
+        },
+        {
+            accessorKey: "email",
+            header: "EMAIL",
         },
         {
             header: "ACTIONS",
@@ -58,74 +63,103 @@ export const createUserColumns = (dynamicLink: string) => {
     return userColumns
 }
 
-export const statusColumns: ColumnDef<Status>[] = [
-    {
-        accessorKey: "id",
-        header: "ID",
-    },
-    {
-        accessorKey: "nama_status",
-        header: "NAMA STATUS",
-    },
-    {
-        header: "ACTIONS",
-        id: "actions",
-        cell: ({ row }) => <CellAction data={row.original} />,
-    }
-];
+export const createStatusColumns = () => {
+    const statusColumns: ColumnDef<Status>[] = [
+        {
+            accessorKey: "id",
+            header: "ID",
+        },
+        {
+            accessorKey: "nama_status",
+            header: "NAMA STATUS",
+        },
+        {
+            header: "ACTIONS",
+            id: "actions",
+            cell: ({ row }) => <CellAction data={row.original}  />,
+        }
+    ]
+
+    return statusColumns
+
+}
+
+export const createRoleColumns = () => {
+    const roleColumns: ColumnDef<Role>[] = [
+        {
+            accessorKey: "id",
+            header: "ID",
+        },
+        {
+            accessorKey: "nama_role",
+            header: "NAMA ROLE",
+        },
+        {
+            header: "ACTIONS",
+            id: "actions",
+            cell: ({ row }) => <CellAction data={row.original} />,
+        }
+    ]
+
+    return roleColumns
+
+}
+
+export const createDivisiColumns = () => {
+    const divisiColumns: ColumnDef<Divisi>[] = [
+        {
+            accessorKey: "id",
+            header: "ID",
+        },
+        {
+            accessorKey: "nama_divisi",
+            header: "NAMA DIVISI",
+        },
+        {
+            header: "ACTIONS",
+            id: "actions",
+            cell: ({ row }) => <CellAction data={row.original} />,
+        }
+    ]
+
+    return divisiColumns
 
 
-export const roleColumns: ColumnDef<Role>[] = [
-    {
-        accessorKey: "id",
-        header: "ID",
-    },
-    {
-        accessorKey: "nama_role",
-        header: "NAMA ROLE",
-    },
-    {
-        header: "ACTIONS",
-        id: "actions",
-        cell: ({ row }) => <CellAction data={row.original}  />,
-    }
-];
+}
 
-export const divisiColumns: ColumnDef<Divisi>[] = [
-    {
-        accessorKey: "id",
-        header: "ID",
-    },
-    {
-        accessorKey: "nama_divisi",
-        header: "NAMA DIVISI",
-    },
-    {
-        header: "ACTIONS",
-        id: "actions",
-        cell: ({ row }) => <CellAction data={row.original} />,
-    }
-];
+export const createPresensiColumns = (dynamicLink: string) => {
+    const presensiColumns: ColumnDef<Presensi>[] = [
+        {
+            accessorKey: "nip",
+            header: "NIP",
+        },
+        {
+            accessorKey: "nama",
+            header: "NAMA",
+        },
+        {
+            accessorKey: "tanggal",
+            header: "TANGGAL",
+        },
+        {
+            accessorKey: "jamMasuk",
+            header: "JAM MASUK",
+        },
+        {
+            accessorKey: "status",
+            header: "Status",
+            cell: ({ row }: any) => <Badge variant="secondary" className={row.original.statusId === 1 ? `bg-green-500 text-white hover:bg-green-500` : row.original.statusId === 3 ? `bg-red-500 text-white hover:bg-red-500` : row.original.statusId === 2 ? `bg-yellow-500 text-white hover:bg-yellow-500` : `bg-blue-500 text-white hover:bg-blue-500`} >{row.original.status}</Badge>,
+        },
+        {
+            header: "ACTIONS",
+            id: "actions",
+            cell: ({ row }) => <CellAction data={row.original} link={dynamicLink} />,
+        }
+    ]
 
+    return presensiColumns
 
-export const presensiColumns: ColumnDef<Presensi>[] = [
-    {
-        accessorKey: "nip",
-        header: "NIP",
-    },
-    {
-        accessorKey: "nama",
-        header: "NAMA",
-    },
-    {
-        accessorKey: "tanggal",
-        header: "TANGGAL",
-    },
-    {
-        accessorKey: "jamMasuk",
-        header: "JAM MASUK",
-    },
-];
+}
 
 export const createIzinColumns = (dynamicLink: string) => {
     const izinColumns: ColumnDef<Izin>[] = [
@@ -146,9 +180,9 @@ export const createIzinColumns = (dynamicLink: string) => {
             header: "TANGGAL",
         },
         {
-            accessorKey: "nama_status",
+            accessorKey: "status",
             header: "STATUS",
-            cell: ({ row }: any) => <Badge variant="secondary" className={row.original.statusId === 4 ? `text-black` : row.original.statusId === 5 ? `bg-green-500 text-white hover:bg-green-500` : `bg-red-500 text-white hover:bg-red-500`} >{row.original.nama_status}</Badge>,
+            cell: ({ row }: any) => <Badge variant="secondary" className={row.original.statusId === 4 ? `text-black` : row.original.statusId === 5 ? `bg-green-500 text-white hover:bg-green-500` : `bg-red-500 text-white hover:bg-red-500`} >{row.original.status}</Badge>,
         },
         {
             header: "ACTIONS",
@@ -162,24 +196,34 @@ export const createIzinColumns = (dynamicLink: string) => {
 
 
 
-export const gedungColumns: ColumnDef<Gedung>[] = [
-    {
-        accessorKey: "id",
-        header: "ID",
-    },
-    {
-        accessorKey: "nama_gedung",
-        header: "NAMA GEDUNG",
-    },
-    {
-        accessorKey: "latitude",
-        header: "Latitude",
-    },
-    {
-        accessorKey: "longitude",
-        header: "Longitude",
-    }
-]
+export const createTitikColumns = () => {
+    const titikColumns: ColumnDef<Titik>[] = [
+        {
+            accessorKey: "id",
+            header: "ID",
+        },
+        {
+            accessorKey: "nama_titik",
+            header: "NAMA TITIK",
+        },
+        {
+            accessorKey: "latitude",
+            header: "Latitude",
+        },
+        {
+            accessorKey: "longitude",
+            header: "Longitude",
+        },
+        {
+            header: "ACTIONS",
+            id: "actions",
+            cell: ({ row }) => <CellAction data={row.original} />,
+        }
+    ]
+
+    return titikColumns
+
+}
 
 export const createKaryawanColumns = (dynamicLink: string) => {
     const karyawanColumns: ColumnDef<User>[] = [
@@ -192,7 +236,11 @@ export const createKaryawanColumns = (dynamicLink: string) => {
             header: "Nama Karyawan",
         },
         {
-            accessorKey: "nama_divisi",
+            accessorKey: "email",
+            header: "Email",
+        },
+        {
+            accessorKey: "divisi",
             header: "Divisi",
         },
         {

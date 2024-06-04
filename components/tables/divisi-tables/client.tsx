@@ -5,9 +5,10 @@ import { DataTable } from "@/components/ui/data-table";
 import { Separator } from "@/components/ui/separator";
 import { Divisi } from "@/constants/data";
 import { useRouter } from "next/navigation";
-import { divisiColumns } from "../columns";
+import { createDivisiColumns } from "../columns";
 import { Heading } from "@/components/ui/heading";
-import { Icons } from "@/components/icons";
+import { PlusIcon } from "lucide-react";
+import AddDialog from "@/components/AddDialog";
 
 interface ProductsClientProps {
     data: Divisi[];
@@ -15,6 +16,7 @@ interface ProductsClientProps {
 
 export const DivisiClient = ({ data }: ProductsClientProps) => {
     const router = useRouter();
+    const divisiColumns = createDivisiColumns();
 
     return (
         <>
@@ -23,6 +25,9 @@ export const DivisiClient = ({ data }: ProductsClientProps) => {
                     title={`Divisi  (${data.length})`}
                     // description="Manage users (Client side table functionalities.)"
                 />
+                <div>
+                    <AddDialog name="nama_divisi" id="nama_divisi" title="Divisi" />
+                </div>
             </div>
             <Separator />
             <DataTable searchKey="divisi" columns={divisiColumns} data={data} />

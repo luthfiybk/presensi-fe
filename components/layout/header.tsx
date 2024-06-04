@@ -25,7 +25,7 @@ export default function Header({ link, items }: IHeaderProps) {
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <UserNav />
+                    {/* <UserNav /> */}
                 </div>
             </nav>
         </div>

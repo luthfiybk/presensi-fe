@@ -11,14 +11,22 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import Clock from 'react-live-clock';
 import axios from "axios";
 import { useState, useEffect } from "react";
+import type { Metadata } from "next";
+import { useAuth } from "@/components/auth";
 
 export default function DashboardPage() {
     const [response, setResponse] = useState([])
+    const auth = useAuth()
+    const [user, setUser]: any = useState(null)
+    const name = localStorage.getItem("user")?.slice(1, -1)
 
     const fetchResponse = async () => {
         try {
             const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/admin/")
             const data = response.data
+
+            await auth.fetchUser()
+
             setResponse(data)
         } catch (error) {
             console.error("Fetch dashboard data error", error)
@@ -29,15 +37,14 @@ export default function DashboardPage() {
         fetchResponse()
     }, [])
 
-    console.log(response)
-
+    console.log(user)
 
     return (
         <ScrollArea className="h-full">
             <div className="flex-1 space-y-4 p-5 md:p-8 pt-16">
                 <div className="flex items-center justify-between space-y-2">
                     <h2 className="text-3xl font-bold tracking-tight">
-                        Hi, Luthfi 👋
+                        Hi, {name} 👋
                     </h2>
                 </div>
                 <Tabs defaultValue="overview" className="space-y-4">
@@ -46,12 +53,12 @@ export default function DashboardPage() {
                             {response.map((data: any) => (
                                 <Card className="flex flex-col gap-1">
                                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                        <CardTitle className="text-md font-medium ">
+                                        <CardTitle className="text-md font-medium h-10">
                                             {data.kolom}
                                         </CardTitle>
                                     </CardHeader>
                                     <CardContent>
-                                        <div className="text-2xl font-bold ">{data.total}</div>
+                                        <div className="text-2xl font-bold">{data.total}</div>
                                     </CardContent>
                                 </Card>
                             ))}

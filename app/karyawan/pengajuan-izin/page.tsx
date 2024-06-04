@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import axios from "axios"
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 const breadcrumbItems = [{ title: "Pengajuan Izin", link: "/karyawan/pengajuan-izin" }];
 export default function PengajuanIzinPage() {
@@ -46,10 +48,13 @@ export default function PengajuanIzinPage() {
                 }
             })
 
-            console.log(response.data)
+            if (response.status === 201) {
+                toast.success("Pengajuan berhasil")
+            }
+
         } catch (error: any) {
             // alert("Pengajuan gagal")
-            console.log(error.message)
+            toast.error("Pengajuan gagal")
         }
     }
 

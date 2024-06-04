@@ -36,7 +36,8 @@ import {
     UserCog,
     ShieldHalf,
     Building,
-    Download
+    Download,
+    MapPin
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -75,6 +76,7 @@ export const Icons = {
     shieldHalf: ShieldHalf,
     building: Building,
     download: Download,
+    mapPin: MapPin,
     gitHub: ({ ...props }: LucideProps) => (
         <svg
             aria-hidden="true"

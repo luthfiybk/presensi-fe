@@ -5,17 +5,23 @@ import { DataTable } from "@/components/ui/data-table";
 import { Separator } from "@/components/ui/separator";
 import { Presensi } from "@/constants/data";
 import { Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { presensiColumns, statusColumns } from "../columns";
+import { usePathname, useRouter } from "next/navigation";
+import { createPresensiColumns } from "../columns";
 import { Heading } from "@/components/ui/heading";
 import { Icons } from "@/components/icons";
+import { handlePrintPresensi } from "./presensi-pdf";
 
 interface ProductsClientProps {
     data: Presensi[];
+    path: string
 }
 
-export const PresensiClient = ({ data }: ProductsClientProps) => {
+export const PresensiClient = ({ data, path }: ProductsClientProps) => {
     const router = useRouter();
+    const presensiColumns = createPresensiColumns(path);
+    const downloadPDF = () => {
+        handlePrintPresensi({ data });
+    }
 
     return (
         <>
@@ -24,12 +30,13 @@ export const PresensiClient = ({ data }: ProductsClientProps) => {
                     title={`Presensi  (${data.length})`}
                     // description="Manage users (Client side table functionalities.)"
                 />
+                {path.includes('supervisor') && (
                 <Button
                     className="bg-[#6DBE45] text-xs md:text-sm"
-                    onClick={() => router.push(`/dashboard/user/new`)}
+                    onClick={downloadPDF}
                 >
                     <Icons.download className="mr-2 h-4 w-4" /> Download
-                </Button>
+                </Button>)}
             </div>
             <Separator />
             <DataTable searchKey="" columns={presensiColumns} data={data} />

@@ -2,12 +2,13 @@
 
 import BreadCrumb from "@/components/breadcrumb";
 import { PresensiClient } from "@/components/tables/presensi-tables/client";
-import { presensi } from "@/constants/data";
 import axios from "axios"
+import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function PresensiKaryawanPage() {
     const [presensi, setPresensi] = useState([])
+    const pathname = usePathname()
 
     const fetchPresensi = async () => {
         try {
@@ -17,7 +18,6 @@ export default function PresensiKaryawanPage() {
                 return {
                     ...item,
                     tanggal: (item.tanggal.slice(0, 10)),
-                    jamMasuk: (item.jamMasuk.slice(11, 16)),
                 }
             })
             setPresensi(mappedData)
@@ -30,11 +30,13 @@ export default function PresensiKaryawanPage() {
         fetchPresensi()
     }, [])
 
+    console.log(presensi)
+
     return (
         <>
             <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
                 <BreadCrumb items={[{ title: "Presensi Karyawan", link: "/supervisor/presensi-karyawan" }]} />
-                <PresensiClient data={presensi} />
+                <PresensiClient data={presensi} path={pathname} />
             </div>
         </>
     )

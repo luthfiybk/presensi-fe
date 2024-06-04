@@ -3,12 +3,12 @@
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { Separator } from "@/components/ui/separator";
-import { status, Status } from "@/constants/data";
-import { Plus } from "lucide-react";
+import { Status } from "@/constants/data";
 import { useRouter } from "next/navigation";
-import { statusColumns } from "../columns";
+import { createStatusColumns } from "../columns";
 import { Heading } from "@/components/ui/heading";
-import { Icons } from "@/components/icons";
+import { PlusIcon } from "lucide-react";
+import AddDialog from "@/components/AddDialog";
 
 interface ProductsClientProps {
     data: Status[];
@@ -16,6 +16,7 @@ interface ProductsClientProps {
 
 export const StatusClient = ({ data }: ProductsClientProps) => {
     const router = useRouter();
+    const statusColumns = createStatusColumns()
 
     return (
         <>
@@ -24,6 +25,9 @@ export const StatusClient = ({ data }: ProductsClientProps) => {
                     title={`Status  (${data.length})`}
                     // description="Manage users (Client side table functionalities.)"
                 />
+                <div className="space-x-3">
+                    {/* <AddDialog name="nama_status" id="nama_status" title="Status" /> */}
+                </div>
             </div>
             <Separator />
             <DataTable searchKey="status" columns={statusColumns} data={data} />

@@ -46,7 +46,7 @@ console.log("value", table.getFilteredSelectedRowModel()); */
                 placeholder={`Search ${searchKey}...`}
                 value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
                 onChange={(event) =>
-                table.getColumn(searchKey)?.setFilterValue(event.target.value)
+                    table.getColumn(searchKey)?.setFilterValue(event.target.value)
                 }
                 className="w-full md:max-w-sm"
             />

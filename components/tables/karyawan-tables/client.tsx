@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { createKaryawanColumns } from "../columns";
 import { Heading } from "@/components/ui/heading";
 import { Icons } from "@/components/icons";
+import { handlePrintKaryawan } from "./karyawan-pdf";
 
 interface ProductsClientProps {
     data: User[];
@@ -18,6 +19,10 @@ interface ProductsClientProps {
 export const KaryawanClient = ({ data, path }: ProductsClientProps) => {
     const router = useRouter();
     const karyawanColumns = createKaryawanColumns(path)
+    const isAdmin = path === 'admin'
+    const downloadPDF = () => {
+        handlePrintKaryawan({ data });
+    }
 
     return (
         <>
@@ -28,7 +33,7 @@ export const KaryawanClient = ({ data, path }: ProductsClientProps) => {
                 />
                 <Button
                     className="bg-[#6DBE45] text-xs md:text-sm"
-                    onClick={() => router.push(`/dashboard/user/new`)}
+                    onClick={downloadPDF}
                 >
                     <Icons.download className="mr-2 h-4 w-4" /> Download
                 </Button>

@@ -1,5 +1,6 @@
 "use client"
 
+// @refresh reset
 import BreadCrumb from "@/components/breadcrumb";
 import Gmaps from "@/components/gmaps";
 import { Button } from "@/components/ui/button";
@@ -7,11 +8,13 @@ import { useState, useEffect } from "react";
 import Clock from 'react-live-clock';
 import axios from "axios";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 // const breadcrumbItems = [{ title: "Presensi", link: "/karyawan/presensi" }];
 export default function PresensiPage() {
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
+    const [check, setCheck]: any = useState({});
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
@@ -25,6 +28,20 @@ export default function PresensiPage() {
             }
         )
     }, []);
+
+    const checkPresensi = async () => {
+        try {
+            const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/presensi/check", {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get("authToken")}`,
+                }
+            })
+
+            setCheck(response.data[0])
+        } catch (error: any) {
+            console.error("Fetch presensi error", error.message)
+        }
+    }
 
     const [formData, setFormData] = useState({
         latitude: null,
@@ -51,12 +68,42 @@ export default function PresensiPage() {
                     Authorization: `Bearer ${Cookies.get("authToken")}`,
                 }
             })
+
+            if (response.status === 201) {
+                toast.success("Presensi berhasil")
+            }
             console.log(response.data)
         } catch (error: any) {
-            alert("Presensi gagal")
-            console.log(error.message)
+            toast.error("Presensi gagal")
         }
     }
+
+    const handlePulang = async (e: any) => {
+        e.preventDefault()
+
+        try {
+            const response = await axios.patch(process.env.NEXT_PUBLIC_API_URL + "/presensi/pulang", {}, {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get("authToken")}`,
+                }
+            })
+
+            console.log(response)
+            if (response.status === 201) {
+                toast.success("Presensi Pulang berhasil")
+            }
+            console.log(response.data)
+        } catch (error: any) {
+            toast.error("Presensi gagal")
+            console.error("Presensi error", error.message)
+        }
+    }
+
+    useEffect(() => {
+        checkPresensi()
+    }, [])
+
+    console.log(check)
 
     return (
         <>
@@ -71,9 +118,14 @@ export default function PresensiPage() {
                             <input type="text" onChange={handleChange} value={latitude} className="w-2/3 bg-gray-200" id="latitude" hidden required/>
                             <input type="text" onChange={handleChange} value={longitude} className="w-2/3 bg-gray-200" id="longitude" hidden required/>
                         </form>
-                        <Button onClick={handleSubmit} className="w-2/3 bg-green-500">
-                            Presensi
-                        </Button>
+                        {check === undefined ? (
+                            <Button onClick={handleSubmit} className="w-2/3 bg-green-500">
+                                Masuk
+                            </Button>
+                        ) : (
+                            <div></div>
+                        )
+                    }
                     </div>
                 </div>
             </div>

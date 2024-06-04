@@ -6,15 +6,23 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectTrigger, SelectValue, SelectItem, SelectContent, SelectGroup } from "@/components/ui/select"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Edit } from "lucide-react"
+import {  PlusIcon } from "lucide-react"
 import axios from "axios"
 import { useParams } from "next/navigation"
 
 export default function DetailUserPage() {
-    const [user, setUser]: any = useState({})
+    const [user, setUser]: any = useState({
+        nip: "",
+        nama: "",
+        email: "",
+        password: "",
+        roleId: null,
+        divisiId: null
+    })
     const [role, setRole]: any = useState([])
     const [divisi, setDivisi]: any = useState([])
-    const { nip } = useParams()
+    const [divisiValue, setDivisiValue]: any = useState(null)
+    const [selectedDivisiName, setSelectedDivisiName]: any = useState('')
 
     const fetchDivisi = async () => {
         try {
@@ -34,55 +42,85 @@ export default function DetailUserPage() {
         }
     }
 
-    const fetchUser = async () => {
+    const handleChange = async (e: any) => {
+        const {name, value} = e.target
+        setUser({...user, [name]: value})
+    }
+
+    const handleValueChange = (value: any) => {
+        const selectedDivisi = divisi.find((item: any) => item.id === parseInt(value))
+        setDivisiValue(value)
+        setSelectedDivisiName(selectedDivisi?.nama_divisi || '')
+    }
+
+    const addUser = async () => {
         try {
-            const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/user/${nip}`)
-            setUser(response.data)
+            
+
+            console.log(form)
+            
         } catch (error) {
-            console.log(error)
+            console.error("Fetch user error", error)
         }
     }
 
     useEffect(() => {
-        fetchUser()
         fetchDivisi()
         fetchRole()
     }, [])
 
+    const form = {
+        nip: user.nip,
+        nama: user.nama,
+        email: user.email,
+        password: user.password,
+        roleId: parseInt(user.roleId),
+        divisiId: parseInt(divisiValue)
+    }
+
+
+    console.log(form, 'form')
+
     return (
         <>
             <div className="flex mt-10 mx-10">
-                <Label className="text-2xl"> Detail Data User </Label>
+                <Label className="text-2xl"> Tambah User </Label>
             </div>
             <div className="flex flex-col pt-10 items-center justify-center">
-                <form className="w-3/4">
+                <form className="w-3/4" >
                     <div className="flex flex-col gap-7">
                         <div className="flex justify-center items-center gap-7">
                             <Label className="text-md w-1/3">
                                 NIP
                             </Label>
-                            <Input className="text-md" defaultValue={user?.[0]?.nip} />
+                            <Input className="text-md" id="nip" name="nip" onChange={handleChange} />
                         </div>
                         <div className="flex justify-center items-center gap-7">
                             <Label className="text-md w-1/3">
                                 Nama
                             </Label>
-                            <Input className="font-medium text-md" defaultValue={user?.[0]?.nama} />
+                            <Input className="font-medium text-md" id="nama" name="nama" onChange={handleChange} />
                         </div>
                         <div className="flex justify-center items-center gap-7">
                             <Label className="text-md w-1/3">
                                 Email
                             </Label>
-                            <Input className="font-medium text-md" defaultValue={user?.[0]?.email} />
+                            <Input className="font-medium text-md" id="email" name="email" onChange={handleChange} />
+                        </div>
+                        <div className="flex justify-center items-center gap-7">
+                            <Label className="text-md w-1/3">
+                                Password
+                            </Label>
+                            <Input type="password" className="font-medium text-md" id="password" name="password" onChange={handleChange} />
                         </div>
                         <div className="flex justify-normal items-center">
                             <Label className="text-md w-1/3 flex-start">
                                 Role
                             </Label>
-                            <RadioGroup defaultValue={user?.[0]?.nama_role}>
+                            <RadioGroup onChange={handleChange} id="roleId" name="roleId">
                                 {role.map((item: any) => (
                                     <div className="flex items-center space-x-2">
-                                        <RadioGroupItem id={item.id} value={item.nama_role} />
+                                        <RadioGroupItem id={item.id} value={item.id} />
                                         <Label htmlFor={item.id}>{item.nama_role}</Label>
                                     </div>
                                 ))}
@@ -92,23 +130,23 @@ export default function DetailUserPage() {
                             <Label className="text-md w-1/3">
                                 Divisi
                             </Label>
-                            <Select>
+                            <Select onValueChange={handleValueChange} defaultValue={selectedDivisiName}>
                                 <SelectTrigger>
-                                    <SelectValue placeholder={user?.[0]?.nama_divisi}></SelectValue>
+                                    <SelectValue /> {selectedDivisiName || "Pilih Divisi"}
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectGroup>
                                         {divisi.map((item: any) => (
-                                            <SelectItem key={item.id} value={item.nama_divisi}>{item.nama_divisi}</SelectItem>
+                                            <SelectItem key={item.id} value={item.id}>{item.nama_divisi}</SelectItem>
                                         ))}
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
                         </div>
                     </div>
-                    <Button className="mt-5 bg-orange-500 hover:bg-orange-400">
-                        <Edit size={24} className="mr-2" />
-                        Edit
+                    <Button className="mt-5 bg-blue-500 hover:bg-blue-400" onClick={addUser}>
+                        <PlusIcon size={24} className="mr-2" />
+                        Tambah
                     </Button>
                 </form>
             </div>

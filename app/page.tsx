@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation"
 import axios from "axios"
 import { useState, useEffect } from "react"
 import { useAuth } from "@/components/auth"
+import toast from "react-hot-toast"
 
 export default function Login() {
     const router = useRouter()
@@ -50,15 +51,18 @@ export default function Login() {
 
             if(user.roleId === 1) {
                 router.push("/admin/dashboard")
+                localStorage.setItem("user", JSON.stringify(user.nama))
             } else if (user.roleId === 2) {
                 router.push("/karyawan")
+                localStorage.setItem("user", JSON.stringify(user.nama))
             } else if (user.roleId === 3) {
                 router.push("/supervisor/dashboard")
+                localStorage.setItem("user", JSON.stringify(user.nama))
             } else {
-                console.error("Role tidak ditemukan")
+                toast.error("Login gagal, Username/Email atau Password salah")
             }
         } catch (error: any) {
-            alert(error.message)
+            toast.error("Login gagal, Username/Email atau Password salah")
         }
     }
 

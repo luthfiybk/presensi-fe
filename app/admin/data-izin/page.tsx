@@ -2,7 +2,6 @@
 
 import BreadCrumb from "@/components/breadcrumb"
 import { IzinClient } from "@/components/tables/izin-tables/client"
-import { izin } from "@/constants/data"
 import axios from 'axios'
 import { usePathname } from "next/navigation"
 import { useState, useEffect } from "react"

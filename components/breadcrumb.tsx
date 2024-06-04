@@ -2,6 +2,8 @@ import { cn } from "@/lib/utils";
 import { Icons } from "./icons";
 import Link from "next/link";
 import React from "react";
+import { usePathname } from "next/navigation";
+
 
 type BreadCrumbType = {
     title: string;
@@ -13,10 +15,12 @@ interface BreadCrumbPropsType  {
 };
 
 export default function BreadCrumb({ items }: BreadCrumbPropsType) {
+    const pathname = usePathname();
+    const dashboard = pathname.includes('/supervisor') ? '/supervisor/dashboard' : pathname.includes('/admin') ? '/admin/dashboard' : '/'
     return (
         <div className="mb-4 flex items-center space-x-1 text-sm text-muted-foreground">
             <Link
-                href={"/karyawan/dashboard"}
+                href={dashboard}
                 className="overflow-hidden text-ellipsis whitespace-nowrap"
             >
                 Dashboard
