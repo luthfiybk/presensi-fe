@@ -12,30 +12,26 @@ interface IGmapsProps {
 
 export default function Gmaps({ width, height, latitude, longitude }: IGmapsProps) {
     const [center, setCenter] = useState({ lat: 0, lng: 0 });
+    const [zoom, setZoom] = useState(20)
 
     useEffect(() => {
         // Mendapatkan lokasi pengguna saat komponen dimuat
-        if (latitude && longitude) {
-            navigator.geolocation.getCurrentPosition(
-                position => {
-                    setCenter({ lat: latitude, lng: longitude });
-                },
-                error => {
-                    console.error('Error getting user location:', error);
-                }
-            )
+        if (latitude !== undefined && longitude !== undefined) {
+            setCenter({ lat: latitude, lng: longitude });
         } else {
             navigator.geolocation.getCurrentPosition(
-                position => {
-                    const { latitude, longitude } = position.coords;
-                    setCenter({ lat: latitude, lng: longitude });
+                (position) => {
+                    setCenter({
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    });
                 },
-                error => {
-                    console.error('Error getting user location:', error);
+                () => {
+                    console.log('Error: The Geolocation service failed.');
                 }
             );
         }
-    }, []);
+    }, [latitude, longitude]);
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -47,18 +43,20 @@ export default function Gmaps({ width, height, latitude, longitude }: IGmapsProp
     const onLoad = useCallback(function callback(map: any) {
         const bounds = new window.google.maps.LatLngBounds();
         map.fitBounds(bounds);
+        setMap(map)
     }, [])
 
     const onUnmount = useCallback(function callback(map: any) {
         setMap(null)
     }, [])
 
+
     return (
         isLoaded ? (
             <GoogleMap
                 mapContainerStyle={{width: width, height: height}}
                 center={center}
-                zoom={15}
+                zoom={zoom}
                 onLoad={onLoad}
                 onUnmount={onUnmount}
             >

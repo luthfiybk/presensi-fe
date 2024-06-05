@@ -27,8 +27,8 @@ function Modal({ link }: DialogProps) {
                         Lihat File
                     </Button>
                 </DialogTrigger>
-                <DialogContent className="h-full max-w-full" suppressHydrationWarning>
-                    <div className="mt-5 h-1/4">
+                <DialogContent className="h-5/6 w-full sm:h-3/4" suppressHydrationWarning>
+                    <div className="mt-5 pb-28 h-1/4">
                         <PDFReader fileUrl={link} />
                     </div>
                     <DialogClose>
@@ -98,13 +98,9 @@ export default function DetailIzinPage() {
     
     }
 
-    console.log(Cookies.get("authToken"))
-
     useEffect(() => {
         fetchIzin()
     }, [])
-
-    console.log(izin)
 
     return (
         <>

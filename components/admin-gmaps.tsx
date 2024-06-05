@@ -52,8 +52,7 @@ const Map: React.FC<MapProps> = ({ onMapClick, latitude, longitude }) => {
             handleLocationError(true, center);
         }
       );
-    }
-    else if (navigator.geolocation) {
+    } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const pos = {

@@ -23,8 +23,6 @@ export const UserClient = ({ data, path }: ProductsClientProps) => {
         handlePrintUsers({ data });
     };
 
-    console.log(data)
-
     return (
         <>
             <div className="flex items-start justify-between">

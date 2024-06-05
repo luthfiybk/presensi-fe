@@ -82,8 +82,6 @@ export const CellAction = ({ data, link }: CellActionProps) => {
         setOpen(false)
     }, [setOpen])
 
-    console.log(changes)
-
     return (
         <>
             <div className="flex flex-column md:flex-row gap-1 items-center justify-center">

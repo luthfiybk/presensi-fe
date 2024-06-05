@@ -9,11 +9,52 @@ import { Check, X } from "lucide-react";
 import Cookies from "js-cookie";
 import { Select, SelectLabel, SelectTrigger, SelectContent, SelectGroup, SelectItem, SelectValue } from "@/components/ui/select";
 import { Eye } from "lucide-react";
+import toast from "react-hot-toast";
+import { Dialog, DialogTrigger, DialogContent, DialogClose } from "@/components/ui/dialog";
+import PDFReader from "@/components/pdf";
+import { useRouter } from "next/navigation";
+
+interface DialogProps {
+    link: string
+}
+
+function Modal({ link }: DialogProps) {
+    return (
+        <>
+            <Dialog>
+                <DialogTrigger>
+                    <Button className="bg-blue-500 hover:bg-blue-400">
+                        <Eye className="mr-4" />
+                        Lihat File
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="h-5/6 w-full sm:h-3/4" suppressHydrationWarning>
+                    <div className="mt-5 pb-28 h-1/4">
+                        <PDFReader fileUrl={link} />
+                    </div>
+                    <DialogClose>
+                        <Button className="bg-red-500 hover:bg-red-400">
+                            <X className="mr-4" />
+                            Tutup
+                        </Button>
+                    </DialogClose>
+                </DialogContent>
+            </Dialog>
+        </>
+    )
+}
 
 export default function DetailIzinPage() {
     const [izin, setIzin]: any = useState({})
     const [status, setStatus]: any = useState([])
+    const [state, setState] = useState(false)
+    const [selectedStatus, setSelectedStatus] = useState('')
+    const [changes, setChanges] = useState({
+        statusId: null
+    })
+
     const { id } = useParams()
+    const router = useRouter()
 
     const fetchIzin = async () => {
         try {
@@ -23,7 +64,6 @@ export default function DetailIzinPage() {
                 return {
                     ...item,
                     tanggal: new Date(item.tanggal).toLocaleDateString(),
-                    nama_status: item.status === 1 ? "Disetujui" : item.status === 2 ? "Ditolak" : "Menunggu"
                 }
             })
             setIzin(mappedData)
@@ -34,23 +74,41 @@ export default function DetailIzinPage() {
 
     const fetchStatus = async () => {
         try {
-            const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/izin/")
-            const data = response.data
-            setStatus(data)
+            const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/status/")
+            const filteredResponse = response.data.filter((item: any) => item.group_status === 'Izin')
+            console.log(filteredResponse)
+
+            setStatus(filteredResponse)
         } catch (error) {
             console.error("Fetch status error", error)
         }
-    
     }
 
+    const handleValueChange = (value: any) => {
+        const selectedStatus = status.find((item: any) => item.id === parseInt(value))
+        setChanges({
+            statusId: value
+        })
+        setSelectedStatus(selectedStatus?.nama_status || '')
+    }
 
+    const updateIzin = async () => {
+        try {
+            const response = await axios.put(process.env.NEXT_PUBLIC_API_URL + "/izin/" + id, changes)
+
+            toast.success("Status izin berhasil diubah")
+            router.push("/admin/data-izin")
+        } catch (error) {
+            console.error("Update izin error", error)
+        }
+    }
 
     useEffect(() => {
         fetchIzin()
         fetchStatus()
     }, [])
 
-    console.log(izin)
+    console.log(changes)
 
     return (
         <>
@@ -85,25 +143,47 @@ export default function DetailIzinPage() {
                         </Label>
                         <Label className="text-md">{izin?.[0]?.keterangan}</Label>
                     </div>
-                    <div className="flex justify-start">
+                    <div className="flex justify-start items-center">
                         <Label className="text-md w-1/2">
                             File
                         </Label>
-                        <Button className="bg-gray-600 hover:bg-gray-400">
-                            <Eye className="mr-4" />
-                            Lihat File
-                        </Button>
+                        <Modal link={izin?.[0]?.file_link} />
                     </div>
                 </div>
             </div>
+            {state === false ? (
                 <div className="flex flex-col gap-5 m-10">
                     <Label className="text-md">
                         Ingin rubah status izin?
                     </Label>
-                    <Button className="bg-green-500 hover:bg-green-400">
+                    <Button onClick={() => setState(true)} className="bg-green-500 hover:bg-green-400">
                         Ya
                     </Button>
                 </div>
+            ) : (
+                <>
+                    <div className="flex justify-start items-center w-3/4 mx-10 mt-5 gap-7">
+                        <Label className="text-md w-1/2">
+                            Status
+                        </Label>
+                        <Select name="statusId" onValueChange={handleValueChange} defaultValue="">
+                            <SelectTrigger>
+                                <SelectValue placeholder={izin?.[0]?.nama_status}></SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    {status.map((item: any) => (
+                                        <SelectItem key={item.id} value={item.id}>{item.nama_status}</SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <Button onClick={updateIzin} className="mx-10 mt-5 bg-orange-500 hover:bg-orange-400">
+                        Edit
+                    </Button>
+                </>
+            )}
         </>
     )
 }
