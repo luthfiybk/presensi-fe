@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { DataTable } from "@/components/ui/data-table";
+import { DataTable } from "@/components/table-new";
 import { Separator } from "@/components/ui/separator";
 import { Status } from "@/constants/data";
 import { useRouter } from "next/navigation";
@@ -12,11 +12,23 @@ import AddDialog from "@/components/AddDialog";
 
 interface ProductsClientProps {
     data: Status[];
+    searchParams: {
+        [key: string]: string | string[] | undefined;
+    }
 }
 
-export const StatusClient = ({ data }: ProductsClientProps) => {
+export const StatusClient = ({ data, searchParams }: ProductsClientProps) => {
     const router = useRouter();
     const statusColumns = createStatusColumns()
+
+    const page = Number(searchParams.page) || 1;
+    const limit = Number(searchParams.limit) || 10;
+    const offset = (page - 1) * limit;
+    const name = searchParams.search || '';
+    
+
+    const total_data = data.length;
+    const total_pages = Math.ceil(total_data / limit);
 
     return (
         <>
@@ -30,7 +42,14 @@ export const StatusClient = ({ data }: ProductsClientProps) => {
                 </div>
             </div>
             <Separator />
-            <DataTable searchKey="status" columns={statusColumns} data={data} />
+            <DataTable 
+                searchKey="nama" 
+                columns={statusColumns} 
+                data={data} 
+                pageNo={page}
+                pageCount={total_pages}
+                totalData={total_data}
+            />
         </>
     );
 };

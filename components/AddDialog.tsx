@@ -46,7 +46,7 @@ export default function AddDialog({ title, name, id }: AddDialogProps ) {
             const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + `/${title.toLowerCase()}/`, value)
 
             toast.success('Data berhasil ditambahkan')
-            router.refresh()
+            location.reload()
         } catch (error) {
             toast.error('Data gagal ditambahkan')
         }
@@ -72,8 +72,8 @@ export default function AddDialog({ title, name, id }: AddDialogProps ) {
                     <Input name={name} id={id} onChange={handleChange} placeholder="Nama" />
                     {title === 'Titik' ? (
                         <>
-                            <Input name="latitude" id="latitude" value={value.latitude} onChange={handleChange} placeholder="latitude" type="hidden"/>
-                            <Input name="longitude" id="longitude" value={value.longitude} onChange={handleChange} placeholder="longitude" type="hidden"/>
+                            <Input name="latitude" id="latitude" value={value.latitude} onChange={handleChange} placeholder="latitude"/>
+                            <Input name="longitude" id="longitude" value={value.longitude} onChange={handleChange} placeholder="longitude" />
                             <Input name="radius" id="radius" onChange={handleChange} placeholder="Radius" />
                         </>
                     ) : (<></>)}

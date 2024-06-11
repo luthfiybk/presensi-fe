@@ -50,6 +50,7 @@ export default function PengajuanIzinPage() {
 
             if (response.status === 201) {
                 toast.success("Pengajuan berhasil")
+                location.reload()
             }
 
         } catch (error: any) {
@@ -77,8 +78,9 @@ export default function PengajuanIzinPage() {
                                     <Textarea id="keterangan" onChange={handleChange} name="keterangan" rows={4} className="border-black" />
                                 </div>
                                 <div className="flex flex-col gap-2">
-                                    <Label htmlFor="file">Bukti Izin</Label>
+                                    <Label htmlFor="file">Bukti Izin*</Label>
                                     <Input type="file" id="file" onChange={handleFileChange} name="file" className="border-black" />
+                                    <Label htmlFor="file" className="text-xs text-gray-400 italic">*Mohon upload dalam bentuk PDF</Label>
                                 </div>
                                 <button onClick={handleSubmit} type="submit" className="w-full bg-green-500 text-white py-2 rounded-lg">
                                     Ajukan

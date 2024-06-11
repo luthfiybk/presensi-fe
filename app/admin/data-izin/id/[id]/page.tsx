@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import { Dialog, DialogTrigger, DialogContent, DialogClose } from "@/components/ui/dialog";
 import PDFReader from "@/components/pdf";
 import { useRouter } from "next/navigation";
+import { Edit } from "lucide-react";
 
 interface DialogProps {
     link: string
@@ -180,6 +181,7 @@ export default function DetailIzinPage() {
                         </Select>
                     </div>
                     <Button onClick={updateIzin} className="mx-10 mt-5 bg-orange-500 hover:bg-orange-400">
+                        <Edit size={24} className="mr-2" />
                         Edit
                     </Button>
                 </>

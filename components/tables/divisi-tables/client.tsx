@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { DataTable } from "@/components/ui/data-table";
+import { DataTable } from "@/components/table-new";
 import { Separator } from "@/components/ui/separator";
 import { Divisi } from "@/constants/data";
 import { useRouter } from "next/navigation";
@@ -12,12 +12,24 @@ import AddDialog from "@/components/AddDialog";
 
 interface ProductsClientProps {
     data: Divisi[];
+    searchParams: {
+        [key: string]: string | string[] | undefined;
+    }
+    total_data: number
 }
 
-export const DivisiClient = ({ data }: ProductsClientProps) => {
+export const DivisiClient = ({ data, searchParams, total_data }: ProductsClientProps) => {
     const router = useRouter();
     const divisiColumns = createDivisiColumns();
 
+    const page = Number(searchParams.page) || 1;
+    const limit = Number(searchParams.limit) || 10;
+    const offset = (page - 1) * limit;
+    const name = searchParams.search || '';
+    
+    const total_pages = Math.ceil(total_data / limit);
+
+    console.log(total_data)
     return (
         <>
             <div className="flex items-start justify-between">
@@ -30,7 +42,13 @@ export const DivisiClient = ({ data }: ProductsClientProps) => {
                 </div>
             </div>
             <Separator />
-            <DataTable searchKey="divisi" columns={divisiColumns} data={data} />
+            <DataTable searchKey="nama" 
+                columns={divisiColumns} 
+                data={data}
+                pageNo={page}
+                totalData={total_data}
+                pageCount={total_pages}
+            />
         </>
     );
 };

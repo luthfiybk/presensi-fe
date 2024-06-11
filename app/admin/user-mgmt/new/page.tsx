@@ -8,7 +8,8 @@ import { Select, SelectTrigger, SelectValue, SelectItem, SelectContent, SelectGr
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {  PlusIcon } from "lucide-react"
 import axios from "axios"
-import { useParams } from "next/navigation"
+import { useRouter } from "next/navigation"
+import toast from "react-hot-toast"
 
 export default function DetailUserPage() {
     const [user, setUser]: any = useState({
@@ -23,6 +24,7 @@ export default function DetailUserPage() {
     const [divisi, setDivisi]: any = useState([])
     const [divisiValue, setDivisiValue]: any = useState(null)
     const [selectedDivisiName, setSelectedDivisiName]: any = useState('')
+    const router = useRouter()
 
     const fetchDivisi = async () => {
         try {
@@ -51,16 +53,28 @@ export default function DetailUserPage() {
         const selectedDivisi = divisi.find((item: any) => item.id === parseInt(value))
         setDivisiValue(value)
         setSelectedDivisiName(selectedDivisi?.nama_divisi || '')
+        setUser({...user, divisiId: parseInt(value)})
     }
 
-    const addUser = async () => {
+    const handleAdd = async (e: any) => {
         try {
-            
+            e.preventDefault()
+            const form = {
+                nip: user.nip,
+                nama: user.nama,
+                email: user.email,
+                password: user.password,
+                roleId: parseInt(user.roleId),
+                divisiId: parseInt(user.divisiId) || null
+            }
 
-            console.log(form)
-            
-        } catch (error) {
-            console.error("Fetch user error", error)
+            const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + "/user/create", form)
+
+            toast.success('Berhasil menambahkan user')
+            router.push('/admin/user-mgmt')
+        } catch (error: any) {
+            toast.error('Gagal menambahkan user')
+            console.error(error.message)
         }
     }
 
@@ -68,18 +82,6 @@ export default function DetailUserPage() {
         fetchDivisi()
         fetchRole()
     }, [])
-
-    const form = {
-        nip: user.nip,
-        nama: user.nama,
-        email: user.email,
-        password: user.password,
-        roleId: parseInt(user.roleId),
-        divisiId: parseInt(divisiValue)
-    }
-
-
-    console.log(form, 'form')
 
     return (
         <>
@@ -126,25 +128,27 @@ export default function DetailUserPage() {
                                 ))}
                             </RadioGroup>
                         </div>
-                        <div className="flex justify-center items-center gap-7">
-                            <Label className="text-md w-1/3">
-                                Divisi
-                            </Label>
-                            <Select onValueChange={handleValueChange} defaultValue={selectedDivisiName}>
-                                <SelectTrigger>
-                                    <SelectValue /> {selectedDivisiName || "Pilih Divisi"}
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        {divisi.map((item: any) => (
-                                            <SelectItem key={item.id} value={item.id}>{item.nama_divisi}</SelectItem>
-                                        ))}
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                        </div>
+                        {parseInt(user.roleId) !== 1 && (
+                            <div className="flex justify-center items-center gap-7">
+                                <Label className="text-md w-1/3">
+                                    Divisi
+                                </Label>
+                                <Select onValueChange={handleValueChange} defaultValue={selectedDivisiName}>
+                                    <SelectTrigger>
+                                        <SelectValue /> {selectedDivisiName || "Pilih Divisi"}
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            {divisi.map((item: any) => (
+                                                <SelectItem key={item.id} value={item.id}>{item.nama_divisi}</SelectItem>
+                                            ))}
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        )}
                     </div>
-                    <Button className="mt-5 bg-blue-500 hover:bg-blue-400" onClick={addUser}>
+                    <Button onClick={handleAdd} className="mt-5 bg-blue-500 hover:bg-blue-400">
                         <PlusIcon size={24} className="mr-2" />
                         Tambah
                     </Button>

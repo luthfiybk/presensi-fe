@@ -47,7 +47,7 @@ export default function Login() {
 
             auth.login(token)
 
-            await auth.fetchUser()
+            // await auth.fetchUser()
 
             if(user.roleId === 1) {
                 router.push("/admin/dashboard")

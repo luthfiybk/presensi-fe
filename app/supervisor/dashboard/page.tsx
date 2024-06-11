@@ -11,6 +11,7 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import Clock from 'react-live-clock';
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 export default function DashboardPage() {
     const [response, setResponse] = useState([])
@@ -18,7 +19,12 @@ export default function DashboardPage() {
 
     const fetchResponse = async () => {
         try {
-            const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/supervisor/")
+            const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/supervisor/", {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get("authToken")}`,
+                }
+            
+            })
             const data = response.data
             setResponse(data)
         } catch (error) {
@@ -44,7 +50,7 @@ export default function DashboardPage() {
                             {response.map((data: any) => (
                                 <Card className="flex flex-col gap-1">
                                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                        <CardTitle className="text-md font-medium ">
+                                        <CardTitle className="text-md font-medium h-10">
                                             {data.kolom}
                                         </CardTitle>
                                     </CardHeader>
@@ -53,36 +59,6 @@ export default function DashboardPage() {
                                     </CardContent>
                                 </Card>
                             ))}
-                            {/* <Card className="flex flex-col gap-1">
-                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-md font-medium ">
-                                        Jumlah Karyawan
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-2xl font-bold ">20</div>
-                                </CardContent>
-                            </Card>
-                            <Card className="flex flex-col gap-1">
-                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-md font-medium">
-                                        Jumlah Karyawan yang telah Presensi
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-2xl font-bold">10</div>
-                                </CardContent>
-                            </Card>
-                            <Card className="flex flex-col gap-1">
-                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-md font-medium">
-                                        Jumlah Karyawan yang Izin
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-2xl font-bold">0</div>
-                                </CardContent>
-                            </Card> */}
                         </div>
                         <div className="flex max-w-full md:grid-cols-2 lg:grid-cols-7">
                             <Card className="w-full">

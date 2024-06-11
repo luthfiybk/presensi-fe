@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 export default function PresensiPage() {
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
-    const [check, setCheck]: any = useState({});
+    const [check, setCheck]: any = useState([]);
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
@@ -31,13 +31,13 @@ export default function PresensiPage() {
 
     const checkPresensi = async () => {
         try {
-            const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/presensi/check", {
+            const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/user/presensi/check", {
                 headers: {
                     Authorization: `Bearer ${Cookies.get("authToken")}`,
                 }
             })
-
-            setCheck(response.data[0])
+            
+            setCheck(response.data)
         } catch (error: any) {
             console.error("Fetch presensi error", error.message)
         }
@@ -72,30 +72,8 @@ export default function PresensiPage() {
             if (response.status === 201) {
                 toast.success("Presensi berhasil")
             }
-            console.log(response.data)
         } catch (error: any) {
-            toast.error("Presensi gagal")
-        }
-    }
-
-    const handlePulang = async (e: any) => {
-        e.preventDefault()
-
-        try {
-            const response = await axios.patch(process.env.NEXT_PUBLIC_API_URL + "/presensi/pulang", {}, {
-                headers: {
-                    Authorization: `Bearer ${Cookies.get("authToken")}`,
-                }
-            })
-
-            console.log(response)
-            if (response.status === 201) {
-                toast.success("Presensi Pulang berhasil")
-            }
-            console.log(response.data)
-        } catch (error: any) {
-            toast.error("Presensi gagal")
-            console.error("Presensi error", error.message)
+            toast.error("Presensi gagal, berada di luar kawasan kantor")
         }
     }
 
@@ -118,8 +96,8 @@ export default function PresensiPage() {
                             <input type="text" onChange={handleChange} value={latitude} className="w-2/3 bg-gray-200" id="latitude" hidden required/>
                             <input type="text" onChange={handleChange} value={longitude} className="w-2/3 bg-gray-200" id="longitude" hidden required/>
                         </form>
-                        {check === undefined ? (
-                            <Button onClick={handleSubmit} className="w-2/3 bg-green-500">
+                        {check.length === 0 ? (
+                            <Button onClick={handleSubmit} className="w-2/3 bg-green-500 hover:bg-green-400">
                                 Masuk
                             </Button>
                         ) : (

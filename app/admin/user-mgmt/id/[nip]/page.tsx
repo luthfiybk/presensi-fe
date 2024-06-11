@@ -8,7 +8,8 @@ import { Select, SelectTrigger, SelectValue, SelectItem, SelectContent, SelectGr
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Edit } from "lucide-react"
 import axios from "axios"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
+import toast from "react-hot-toast"
 
 export default function DetailUserPage() {
     const [user, setUser]: any = useState({})
@@ -18,10 +19,14 @@ export default function DetailUserPage() {
         nip: "",
         nama: "",
         email: "",
-        roleId: "",
-        divisiId: ""
+        roleId: null,
+        divisiId: null
     }])
+    const [divisiValue, setDivisiValue]: any = useState(null)
+    const [selectedDivisiName, setSelectedDivisiName]: any = useState('')
+
     const { nip } = useParams()
+    const router = useRouter()
 
     const fetchDivisi = async () => {
         try {
@@ -45,14 +50,40 @@ export default function DetailUserPage() {
         try {
             const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/user/${nip}`)
             setUser(response.data)
+            setForm(response.data)
         } catch (error) {
             console.log(error)
         }
     }
 
-    const handleChange = (e: any) => {
-        setForm({ ...user, [e.target.name]: e.target.value })
-    
+    const handleChange = async (e: any) => {
+        const { name, value } = e.target
+        setForm({ ...user[0], [name]: value })
+    }
+
+    const handleValueChange = (value: any) => {
+        const selectedDivisi = divisi.find((item: any) => item.id === parseInt(value))
+        setDivisiValue(value)
+        setSelectedDivisiName(selectedDivisi?.nama_divisi || '')
+    }
+
+    const handleUpdate = async () => {
+        try {
+            const data = {
+                nip: form.nip,
+                nama: form.nama,
+                email: form.email,
+                roleId: parseInt(form.roleId),
+                divisiId: parseInt(divisiValue) || null
+            }
+
+            const response = await axios.put(process.env.NEXT_PUBLIC_API_URL + `/user/${nip}`, data)
+
+            toast.success('Berhasil mengupdate data user')
+            router.push('/admin/user-mgmt')
+        } catch (error) {
+            toast.error('Gagal mengupdate data user')
+        }
     }
 
     useEffect(() => {
@@ -61,7 +92,7 @@ export default function DetailUserPage() {
         fetchRole()
     }, [])
 
-    console.log(form, 'form')
+    console.log(form)
 
     return (
         <>
@@ -93,7 +124,7 @@ export default function DetailUserPage() {
                             <Label className="text-md w-1/3 flex-start">
                                 Role
                             </Label>
-                            <RadioGroup defaultValue={user?.[0]?.roleId} onValueChange={handleChange}>
+                            <RadioGroup name="roleId" defaultValue={user?.[0]?.roleId} onChange={handleChange}>
                                 {role.map((item: any) => (
                                     <div className="flex items-center space-x-2">
                                         <RadioGroupItem id={item.id} value={item.id} />
@@ -102,15 +133,14 @@ export default function DetailUserPage() {
                                 ))}
                             </RadioGroup>
                         </div>
-
-                        {user?.[0]?.nama_divisi !== null && (
+                        {parseInt(form.roleId) !== 1 && (
                             <div className="flex justify-center items-center gap-7">
                                 <Label className="text-md w-1/3">
                                     Divisi
                                 </Label>
-                                <Select name="divisiId">
+                                <Select name="divisiId" onValueChange={handleValueChange}>
                                     <SelectTrigger>
-                                        <SelectValue  placeholder={user?.[0]?.nama_divisi} defaultValue={user?.[0]?.divisiId} onChange={handleChange}></SelectValue>
+                                        <SelectValue /> {selectedDivisiName || "Pilih Divisi"}
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectGroup>
@@ -123,7 +153,7 @@ export default function DetailUserPage() {
                             </div>   
                         )}
                     </div>
-                    <Button className="mt-5 bg-orange-500 hover:bg-orange-400">
+                    <Button onClick={handleUpdate} className="mt-5 bg-orange-500 hover:bg-orange-400">
                         <Edit size={24} className="mr-2" />
                         Edit
                     </Button>

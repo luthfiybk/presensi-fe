@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { DataTable } from "@/components/ui/data-table";
+import { DataTable } from "@/components/table-new";
 import { Separator } from "@/components/ui/separator";
 import { User } from "@/constants/data";
 import { Plus } from "lucide-react";
@@ -14,15 +14,27 @@ import { handlePrintKaryawan } from "./karyawan-pdf";
 interface ProductsClientProps {
     data: User[];
     path: string
+    searchParams: {
+        [key: string]: string | string[] | undefined;
+    }
 }
 
-export const KaryawanClient = ({ data, path }: ProductsClientProps) => {
+export const KaryawanClient = ({ data, path, searchParams }: ProductsClientProps) => {
     const router = useRouter();
     const karyawanColumns = createKaryawanColumns(path)
     const isAdmin = path === 'admin'
     const downloadPDF = () => {
         handlePrintKaryawan({ data });
     }
+
+    const page = Number(searchParams.page) || 1;
+    const limit = Number(searchParams.limit) || 10;
+    const offset = (page - 1) * limit;
+    const name = searchParams.search || '';
+    
+
+    const total_users = data.length;
+    const total_pages = Math.ceil(total_users / limit);
 
     return (
         <>
@@ -39,7 +51,14 @@ export const KaryawanClient = ({ data, path }: ProductsClientProps) => {
                 </Button>
             </div>
             <Separator />
-            <DataTable searchKey="name" columns={karyawanColumns} data={data} />
+            <DataTable 
+                searchKey="nama" 
+                columns={karyawanColumns} 
+                data={data} 
+                pageNo={page}
+                pageCount={total_pages}
+                totalData={total_users}
+            />
         </>
     );
 };

@@ -11,7 +11,6 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import Clock from 'react-live-clock';
 import axios from "axios";
 import { useState, useEffect } from "react";
-import type { Metadata } from "next";
 import { useAuth } from "@/components/auth";
 
 export default function DashboardPage() {
@@ -25,8 +24,6 @@ export default function DashboardPage() {
             const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/admin/")
             const data = response.data
 
-            await auth.fetchUser()
-
             setResponse(data)
         } catch (error) {
             console.error("Fetch dashboard data error", error)
@@ -36,8 +33,6 @@ export default function DashboardPage() {
     useEffect(() => {
         fetchResponse()
     }, [])
-
-    console.log(user)
 
     return (
         <ScrollArea className="h-full">

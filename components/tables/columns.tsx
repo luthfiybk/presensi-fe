@@ -17,23 +17,9 @@ import { Badge } from "../ui/badge";
 export const createUserColumns = (dynamicLink: string) => {
     const userColumns: ColumnDef<User>[] = [
         {
-            id: "select",
-            header: ({ table }) => (
-                <Checkbox
-                    checked={table.getIsAllPageRowsSelected()}
-                    onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                    aria-label="Select all"
-                />
-            ),
-            cell: ({ row }) => (
-                <Checkbox
-                    checked={row.getIsSelected()}
-                    onCheckedChange={(value) => row.toggleSelected(!!value)}
-                    aria-label="Select row"
-                />
-            ),
-            enableSorting: false,
-            enableHiding: false,
+            accessorKey: "no",
+            header: "NO",
+            cell: ({ row }) => <>{row.index + 1}</>,
         },
         {
             accessorKey: "nama",
@@ -66,12 +52,17 @@ export const createUserColumns = (dynamicLink: string) => {
 export const createStatusColumns = () => {
     const statusColumns: ColumnDef<Status>[] = [
         {
-            accessorKey: "id",
-            header: "ID",
+            header: "NO",
+            id: "no",
+            cell: ({ row }) => <>{row.index + 1}</>,
         },
         {
-            accessorKey: "nama_status",
+            accessorKey: "nama",
             header: "NAMA STATUS",
+        },
+        {
+            accessorKey: "group_status",
+            header: "GROUP STATUS",
         },
         {
             header: "ACTIONS",
@@ -108,11 +99,12 @@ export const createRoleColumns = () => {
 export const createDivisiColumns = () => {
     const divisiColumns: ColumnDef<Divisi>[] = [
         {
-            accessorKey: "id",
-            header: "ID",
+            header: "NO",
+            id: "no",
+            cell: ({ row }) => <>{row.index + 1}</>,
         },
         {
-            accessorKey: "nama_divisi",
+            accessorKey: "nama",
             header: "NAMA DIVISI",
         },
         {
@@ -147,7 +139,7 @@ export const createPresensiColumns = (dynamicLink: string) => {
         },
         {
             accessorKey: "status",
-            header: "Status",
+            header: "STATUS",
             cell: ({ row }: any) => <Badge variant="secondary" className={row.original.statusId === 1 ? `bg-green-500 text-white hover:bg-green-500` : row.original.statusId === 3 ? `bg-red-500 text-white hover:bg-red-500` : row.original.statusId === 2 ? `bg-yellow-500 text-white hover:bg-yellow-500` : `bg-blue-500 text-white hover:bg-blue-500`} >{row.original.status}</Badge>,
         },
         {
@@ -199,11 +191,12 @@ export const createIzinColumns = (dynamicLink: string) => {
 export const createTitikColumns = () => {
     const titikColumns: ColumnDef<Titik>[] = [
         {
-            accessorKey: "id",
-            header: "ID",
+            header: "NO",
+            id: "no",
+            cell: ({ row }) => <>{row.index + 1}</>,
         },
         {
-            accessorKey: "nama_titik",
+            accessorKey: "nama",
             header: "NAMA TITIK",
         },
         {
