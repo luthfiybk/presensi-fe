@@ -174,7 +174,7 @@ export default function DetailIzinPage() {
                             <SelectContent>
                                 <SelectGroup>
                                     {status.map((item: any) => (
-                                        <SelectItem key={item.id} value={item.id}>{item.nama_status}</SelectItem>
+                                        <SelectItem key={item.id} value={item.id}>{item.nama}</SelectItem>
                                     ))}
                                 </SelectGroup>
                             </SelectContent>

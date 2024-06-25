@@ -14,6 +14,7 @@ type paramsProps = {
 }
 export default function IzinKaryawanPage({ searchParams }: paramsProps) {
     const [izin, setIzin] = useState([])
+    const [totalData, setTotalData] = useState(0)
     const pathname = usePathname()
 
     const page = Number(searchParams.page) || 1;
@@ -30,13 +31,15 @@ export default function IzinKaryawanPage({ searchParams }: paramsProps) {
                     Authorization: `Bearer ${Cookies.get("authToken")}`,
                 }
             })
-            const data = response.data
+            const data = response.data.data
             const mappedData = data.map((item: any) => {
                 return {
                     ...item,
                     tanggal: (item.tanggal.slice(0, 10))
                 }
             })
+
+            setTotalData(response.data.total_data)
             setIzin(mappedData)
         } catch (error: any) {
             console.error("Fetch izin error", error.message)
@@ -51,7 +54,7 @@ export default function IzinKaryawanPage({ searchParams }: paramsProps) {
         <>
             <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
                 <BreadCrumb items={[{ title: "Izin Karyawan", link: "/supervisor/izin-karyawan" }]} />
-                <IzinClient data={izin} path={pathname} searchParams={searchParams} />
+                <IzinClient data={izin} path={pathname} searchParams={searchParams} total_data={totalData} />
             </div>
         </>
     )

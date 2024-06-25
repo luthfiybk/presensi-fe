@@ -17,9 +17,10 @@ interface ProductsClientProps {
     searchParams: {
         [key: string]: string | string[] | undefined;
     }
+    total_data: number
 }
 
-export const KaryawanClient = ({ data, path, searchParams }: ProductsClientProps) => {
+export const KaryawanClient = ({ data, path, searchParams, total_data }: ProductsClientProps) => {
     const router = useRouter();
     const karyawanColumns = createKaryawanColumns(path)
     const isAdmin = path === 'admin'
@@ -32,15 +33,13 @@ export const KaryawanClient = ({ data, path, searchParams }: ProductsClientProps
     const offset = (page - 1) * limit;
     const name = searchParams.search || '';
     
-
-    const total_users = data.length;
-    const total_pages = Math.ceil(total_users / limit);
+    const total_pages = Math.ceil(total_data / limit);
 
     return (
         <>
             <div className="flex items-start justify-between">
                 <Heading
-                    title={`Karyawan (${data.length})`}
+                    title={`Karyawan (${total_data})`}
                     // description="Manage users (Client side table functionalities.)"
                 />
                 <Button
@@ -57,7 +56,7 @@ export const KaryawanClient = ({ data, path, searchParams }: ProductsClientProps
                 data={data} 
                 pageNo={page}
                 pageCount={total_pages}
-                totalData={total_users}
+                totalData={total_data}
             />
         </>
     );

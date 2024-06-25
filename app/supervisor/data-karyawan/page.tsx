@@ -16,6 +16,7 @@ type paramsProps = {
 }
 export default function DataKaryawanPage({ searchParams }: paramsProps) {
     const [karyawan, setKaryawan] = useState([])
+    const [totalData, setTotalData] = useState(0)
     const pathname = usePathname()
 
     const page = Number(searchParams.page) || 1;
@@ -30,7 +31,9 @@ export default function DataKaryawanPage({ searchParams }: paramsProps) {
                     Authorization: `Bearer ${Cookies.get("authToken")}`,
                 }
             })
-            const data = response.data
+            const data = response.data.data
+
+            setTotalData(response.data.total_data)
             setKaryawan(data)
         } catch (error) {
             console.error("Fetch karyawan error", error)
@@ -45,7 +48,7 @@ export default function DataKaryawanPage({ searchParams }: paramsProps) {
         <>
             <div className="flex-1 space-y-4  p-4 md:p-8 pt-6">
                 <BreadCrumb items={breadcrumbItems} />
-                <KaryawanClient data={karyawan} path={pathname} searchParams={searchParams} />
+                <KaryawanClient data={karyawan} path={pathname} searchParams={searchParams} total_data={totalData} />
             </div>
         </>
     );

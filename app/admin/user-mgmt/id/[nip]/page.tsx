@@ -31,7 +31,8 @@ export default function DetailUserPage() {
     const fetchDivisi = async () => {
         try {
             const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/divisi/")
-            setDivisi(response.data)
+            setDivisi(response.data.data)
+            console.log(response.data.data)
         } catch (error) {
             console.log(error)
         }
@@ -64,7 +65,7 @@ export default function DetailUserPage() {
     const handleValueChange = (value: any) => {
         const selectedDivisi = divisi.find((item: any) => item.id === parseInt(value))
         setDivisiValue(value)
-        setSelectedDivisiName(selectedDivisi?.nama_divisi || '')
+        setSelectedDivisiName(selectedDivisi?.nama || '')
     }
 
     const handleUpdate = async () => {
@@ -145,7 +146,7 @@ export default function DetailUserPage() {
                                     <SelectContent>
                                         <SelectGroup>
                                             {divisi.map((item: any) => (
-                                                <SelectItem key={item.id} value={item.id}>{item.nama_divisi}</SelectItem>
+                                                <SelectItem key={item.id} value={item.id}>{item.nama}</SelectItem>
                                             ))}
                                         </SelectGroup>
                                     </SelectContent>

@@ -47,7 +47,7 @@ export default function Login() {
 
             auth.login(token)
 
-            // await auth.fetchUser()
+            await auth.fetchUser()
 
             if(user.roleId === 1) {
                 router.push("/admin/dashboard")
@@ -61,6 +61,8 @@ export default function Login() {
             } else {
                 toast.error("Login gagal, Username/Email atau Password salah")
             }
+
+            toast.success("Login Berhasil")
         } catch (error: any) {
             toast.error("Login gagal, Username/Email atau Password salah")
         }
