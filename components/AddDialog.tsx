@@ -46,7 +46,7 @@ export default function AddDialog({ title, name, id }: AddDialogProps ) {
             const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + `/${title.toLowerCase()}/`, value)
 
             toast.success('Data berhasil ditambahkan')
-            location.reload()
+            window.location.reload()
         } catch (error) {
             toast.error('Data gagal ditambahkan')
         }

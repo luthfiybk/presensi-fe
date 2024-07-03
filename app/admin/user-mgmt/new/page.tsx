@@ -29,7 +29,7 @@ export default function DetailUserPage() {
     const fetchDivisi = async () => {
         try {
             const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/divisi/")
-            setDivisi(response.data)
+            setDivisi(response.data.data)
         } catch (error) {
             console.log(error)
         }
@@ -77,6 +77,8 @@ export default function DetailUserPage() {
             console.error(error.message)
         }
     }
+
+    console.log(divisi)
 
     useEffect(() => {
         fetchDivisi()
@@ -140,7 +142,7 @@ export default function DetailUserPage() {
                                     <SelectContent>
                                         <SelectGroup>
                                             {divisi.map((item: any) => (
-                                                <SelectItem key={item.id} value={item.id}>{item.nama_divisi}</SelectItem>
+                                                <SelectItem key={item.id} value={item.id}>{item.nama}</SelectItem>
                                             ))}
                                         </SelectGroup>
                                     </SelectContent>

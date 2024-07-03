@@ -33,6 +33,7 @@ export type Presensi = {
 
 export type Divisi = {
     id: number;
+    nama?: string;
     nama_divisi: string;
 };
 
@@ -43,11 +44,13 @@ export type Role = {
 
 export type Status = {
     id: string;
+    nama?: string;
     nama_status: string;
 };
 
 export type Titik = {
     id: number;
+    nama?: string;
     nama_titik: string;
     latitude: number;
     longitude: number;

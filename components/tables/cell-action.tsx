@@ -38,9 +38,9 @@ export const CellAction = ({ data, link }: CellActionProps) => {
     const title = path.includes('/admin/master-status') ? 'Status' : path.includes('/admin/master-role') ? 'Role' : path.includes('/admin/master-divisi') ? 'Divisi' : path.includes('/admin/master-titik') ? 'Titik' : 'User';
     const [changes, setChanges] = useState({
         ['nama_' + title.toLowerCase()]: (data as Role).nama_role ?? (data as Divisi).nama_divisi ?? (data as Status).nama_status ?? (data as Titik).nama_titik,
-        latitude: '',
-        longitude: '',
-        radius: ''
+        latitude: title.toLowerCase() !== 'titik' ? '' : (data as Titik).latitude.toString(),
+        longitude: title.toLowerCase() !== 'titik' ? '' : ((data as Titik).longitude).toString(),
+        radius: title.toLowerCase() !== 'titik' ? '' : ((data as Titik).radius).toString()
     });
 
     const handleChange = (e: any) => {
@@ -103,7 +103,7 @@ export const CellAction = ({ data, link }: CellActionProps) => {
                         isClose={setOpen}
                         id={data.id} 
                         name={path.includes('/admin/master-status') ? 'nama_status' : path.includes('/admin/master-role') ? 'nama_role' : path.includes('/admin/master-divisi') ? 'nama_divisi' : 'nama_titik'} 
-                        defaultValue={(data as Role).nama_role ?? (data as Divisi).nama_divisi ?? (data as Status).nama_status ?? (data as Titik).nama_titik}
+                        defaultValue={(data as Role).nama_role ?? (data as Divisi).nama ?? (data as Status).nama_status ?? (data as Titik).nama}
                         update={handleUpdate}
                         changes={handleChange}
                         onMapClick={handleMapClick}

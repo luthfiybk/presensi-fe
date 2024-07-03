@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, use } from "react"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -32,7 +32,6 @@ export default function DetailUserPage() {
         try {
             const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/divisi/")
             setDivisi(response.data.data)
-            console.log(response.data.data)
         } catch (error) {
             console.log(error)
         }
@@ -93,8 +92,6 @@ export default function DetailUserPage() {
         fetchRole()
     }, [])
 
-    console.log(form)
-
     return (
         <>
             <div className="flex mt-10 mx-10">
@@ -141,7 +138,7 @@ export default function DetailUserPage() {
                                 </Label>
                                 <Select name="divisiId" onValueChange={handleValueChange}>
                                     <SelectTrigger>
-                                        <SelectValue /> {selectedDivisiName || "Pilih Divisi"}
+                                        <SelectValue /> {selectedDivisiName || user?.[0]?.nama_divisi || 'Pilih Divisi'}
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectGroup>
