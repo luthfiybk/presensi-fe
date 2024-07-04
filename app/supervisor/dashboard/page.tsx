@@ -15,7 +15,7 @@ import Cookies from "js-cookie";
 
 export default function DashboardPage() {
     const [response, setResponse] = useState([])
-    const name = localStorage.getItem("user")?.slice(1, -1)
+    const [name, setName] = useState('')
 
     const fetchResponse = async () => {
         try {
@@ -34,6 +34,8 @@ export default function DashboardPage() {
 
     useEffect(() => {
         fetchResponse()
+        const nama = localStorage.getItem("user")?.slice(1, -1) ?? ""
+        setName(nama)
     }, [])
 
     return (
