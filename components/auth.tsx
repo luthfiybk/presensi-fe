@@ -47,6 +47,7 @@ export const AuthProvider = ({ children }: Readonly<{ children: React.ReactNode 
 
                 const userData = await response.json();
                 setUser(userData);
+                
             } catch (error) {
                 console.error("Error fetching user data", error);
             }
@@ -59,13 +60,14 @@ export const AuthProvider = ({ children }: Readonly<{ children: React.ReactNode 
         };
 
         fetchData();
-    }, [token]); // Only fetch user data when the token changes
+    }, [token]);
 
     return (
         <AuthContext.Provider value={{ token, user, login, logout, fetchUser }}>
             {children}
         </AuthContext.Provider>
     );
+
 };
 
 export const useAuth = () => {
