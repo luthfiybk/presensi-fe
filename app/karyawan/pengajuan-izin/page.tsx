@@ -4,7 +4,7 @@ import BreadCrumb from "@/components/breadcrumb";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios"
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
@@ -41,7 +41,7 @@ export default function PengajuanIzinPage() {
         }
 
         try {
-            const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + "/izin/apply", formData , {
+            const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + "/izin/apply", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${Cookies.get("authToken")}`,
@@ -59,6 +59,9 @@ export default function PengajuanIzinPage() {
         }
     }
 
+    useEffect(() => {
+        document.title = "Pengajuan Izin"
+    }, [])
 
     return (
         <>

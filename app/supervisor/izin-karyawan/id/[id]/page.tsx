@@ -100,6 +100,8 @@ export default function DetailIzinPage() {
 
     useEffect(() => {
         fetchIzin()
+
+        document.title = "Detail Izin Karyawan"
     }, [])
 
     return (

@@ -33,6 +33,8 @@ export default function StatusPage({ searchParams }: paramsProps) {
 
     useEffect(() => {
         fetchStatus();
+
+        document.title = "Master Status"
     }, [name, group_status]);
 
     return (

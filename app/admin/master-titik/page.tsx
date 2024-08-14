@@ -34,6 +34,8 @@ export default function TitikPage({ searchParams }: paramsProps) {
 
     useEffect(() => {
         fetchTitik();
+
+        document.title = "Master Titik"
     }, [name]);
 
     return (

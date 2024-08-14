@@ -42,6 +42,8 @@ export default function DataKaryawanPage({ searchParams }: paramsProps) {
 
     useEffect(() => {
         fetchKaryawan()
+
+        document.title = "Data Karyawan"
     }, [name])
 
     return (

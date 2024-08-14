@@ -107,6 +107,8 @@ export default function DetailIzinPage() {
     useEffect(() => {
         fetchIzin()
         fetchStatus()
+
+        document.title = "Detail Izin"
     }, [])
 
     console.log(changes)

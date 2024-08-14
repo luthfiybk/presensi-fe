@@ -48,6 +48,8 @@ export default function PresensiKaryawanPage({ searchParams }: paramsProps) {
 
     useEffect(() => {
         fetchPresensi()
+
+        document.title = "Daftar Presensi Karyawan"
     }, [name, date, status])
 
     return (

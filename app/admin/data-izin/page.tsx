@@ -45,6 +45,7 @@ export default function IzinPage({ searchParams }: paramsProps) {
 
     useEffect(() => {
         fetchIzin()
+        document.title = "Data Izin"
     }, [name, date, status, divisi])
 
     return (

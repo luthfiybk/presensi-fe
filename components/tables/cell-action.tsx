@@ -23,6 +23,7 @@ import { useRouter, useParams, usePathname } from "next/navigation";
 import DialogComp from "../dialog";
 import axios from "axios";
 import toast from "react-hot-toast";
+import DeleteDialog from "../DeleteDialog";
 
 interface CellActionProps {
     data: User | Izin | Presensi | Divisi | Role | Status | Titik;
@@ -61,7 +62,7 @@ export const CellAction = ({ data, link }: CellActionProps) => {
             if (response.status === 200) {
                 toast.success('Data berhasil diubah');
                 setOpen(false);
-                router.refresh();
+                window.location.reload();
             }
         } catch (error) {
             toast.error('Gagal mengubah data');
@@ -78,8 +79,8 @@ export const CellAction = ({ data, link }: CellActionProps) => {
             const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/${title.toLowerCase()}/${id}`);
             if(response.status === 200) {
                 toast.success('Data berhasil dihapus');
+                window.location.reload()
             }
-            router.refresh();
         } catch (error) {
             toast.error('Gagal menghapus data');
         }
@@ -113,9 +114,7 @@ export const CellAction = ({ data, link }: CellActionProps) => {
                     />
                 )}
                 {trashIcon && (
-                    <Button className="bg-red-500 hover:bg-red-400" onClick={(e) => handleDelete((data as User).nip || data.id, e)}>
-                        <Trash className="h-3 w-3" />
-                    </Button>
+                    <DeleteDialog onDelete={(e) => handleDelete((data as User).nip || data.id, e)} />
                 )}
             </div>
         </>

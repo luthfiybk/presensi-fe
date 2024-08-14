@@ -9,12 +9,15 @@ import Clock from 'react-live-clock';
 import axios from "axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 // const breadcrumbItems = [{ title: "Presensi", link: "/karyawan/presensi" }];
 export default function PresensiPage() {
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
     const [check, setCheck]: any = useState([]);
+
+    const router = useRouter()
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
@@ -71,6 +74,7 @@ export default function PresensiPage() {
 
             if (response.status === 201) {
                 toast.success("Presensi berhasil")
+                window.location.reload()
             }
         } catch (error: any) {
             toast.error("Presensi gagal, berada di luar kawasan kantor")
@@ -79,6 +83,7 @@ export default function PresensiPage() {
 
     useEffect(() => {
         checkPresensi()
+        document.title = "Presensi Karyawan"
     }, [])
 
     console.log(check)

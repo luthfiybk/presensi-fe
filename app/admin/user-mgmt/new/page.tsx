@@ -52,7 +52,8 @@ export default function DetailUserPage() {
     const handleValueChange = (value: any) => {
         const selectedDivisi = divisi.find((item: any) => item.id === parseInt(value))
         setDivisiValue(value)
-        setSelectedDivisiName(selectedDivisi?.nama_divisi || '')
+        console.log(selectedDivisi)
+        setSelectedDivisiName(selectedDivisi?.nama || '')
         setUser({...user, divisiId: parseInt(value)})
     }
 
@@ -83,7 +84,11 @@ export default function DetailUserPage() {
     useEffect(() => {
         fetchDivisi()
         fetchRole()
+
+        document.title = "Tambah User"
     }, [])
+
+    console.log(selectedDivisiName)
 
     return (
         <>
@@ -135,7 +140,7 @@ export default function DetailUserPage() {
                                 <Label className="text-md w-1/3">
                                     Divisi
                                 </Label>
-                                <Select onValueChange={handleValueChange} defaultValue={selectedDivisiName}>
+                                <Select onValueChange={handleValueChange}>
                                     <SelectTrigger>
                                         <SelectValue /> {selectedDivisiName || "Pilih Divisi"}
                                     </SelectTrigger>

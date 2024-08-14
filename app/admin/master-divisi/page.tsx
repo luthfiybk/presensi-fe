@@ -39,6 +39,8 @@ export default function DivisiPage({ searchParams }: paramsProps) {
 
     useEffect(() => {
         fetchDivisi();
+
+        document.title = "Master Divisi"
     }, [name, limit, offset, page]);
 
     return (

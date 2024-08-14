@@ -68,6 +68,10 @@ export default function Login() {
         }
     }
 
+    useEffect(() => {
+        document.title = "Login"
+    }, [])
+
     
     return (
         <div className="flex w-full max-h-full justify-center mt-40">

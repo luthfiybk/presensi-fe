@@ -69,6 +69,8 @@ export default function DetailKaryawanPage() {
         fetchKaryawan()
         fetchDivisi()
         fetchRole()
+
+        document.title = "Detail Karyawan"
     }, [])
     
     console.log(karyawan)

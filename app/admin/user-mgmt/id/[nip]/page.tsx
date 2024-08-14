@@ -90,7 +90,11 @@ export default function DetailUserPage() {
         fetchUser()
         fetchDivisi()
         fetchRole()
+
+        document.title = "Detail User"
     }, [])
+
+    console.log(user)
 
     return (
         <>
@@ -122,10 +126,10 @@ export default function DetailUserPage() {
                             <Label className="text-md w-1/3 flex-start">
                                 Role
                             </Label>
-                            <RadioGroup name="roleId" defaultValue={user?.[0]?.roleId} onChange={handleChange}>
+                            <RadioGroup name="roleId" onChange={handleChange} defaultValue={user[0]?.roleId}>
                                 {role.map((item: any) => (
                                     <div className="flex items-center space-x-2">
-                                        <RadioGroupItem id={item.id} value={item.id} />
+                                        <RadioGroupItem id={item.id} value={item.id} checked={user.roleId === item.id} />
                                         <Label htmlFor={item.id}>{item.nama_role}</Label>
                                     </div>
                                 ))}

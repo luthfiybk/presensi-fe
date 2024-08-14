@@ -34,6 +34,8 @@ export default function DashboardPage() {
         fetchResponse()
         const nama = localStorage.getItem("user")?.slice(1, -1) ?? ""
         setName(nama)
+
+        document.title = "Dashboard"
     }, [])
 
     return (

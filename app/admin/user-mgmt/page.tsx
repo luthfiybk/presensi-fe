@@ -39,6 +39,8 @@ export default function page({ searchParams }: paramsProps) {
 
     useEffect(() => {
         fetchUser()
+
+        document.title = "User Management"
     }, [limit, offset, name, role, divisi])
 
     return (

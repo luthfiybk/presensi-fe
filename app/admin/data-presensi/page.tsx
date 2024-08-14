@@ -45,6 +45,8 @@ export default function DataPresensiPage({ searchParams }: paramsProps) {
 
     useEffect(() => {
         fetchPresensi()
+
+        document.title = "Data Presensi"
     }, [name, date, status, divisi, limit, offset])
 
     return (

@@ -31,6 +31,8 @@ export default function DetailPresensiPage() {
 
     useEffect(() => {
         fetchPresensi();
+
+        document.title = "Detail Presensi Karyawan"
     }, [])
 
     console.log(presensi)

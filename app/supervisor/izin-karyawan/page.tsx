@@ -48,6 +48,8 @@ export default function IzinKaryawanPage({ searchParams }: paramsProps) {
 
     useEffect(() => {
         fetchIzin()
+
+        document.title = "Daftar Izin Karyawan"
     }, [name, status, date])
 
     return (

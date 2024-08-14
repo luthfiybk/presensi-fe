@@ -50,6 +50,7 @@ export default function Gmaps({ width, height, latitude, longitude }: IGmapsProp
         setMap(null)
     }, [])
 
+    console.log(center)
 
     return (
         isLoaded ? (
