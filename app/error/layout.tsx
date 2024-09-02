@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-export const metadataError: Metadata = {
+export const metadata: Metadata = {
     title: "Forbidden",
     description: "403 Forbidden",
 }
