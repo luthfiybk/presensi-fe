@@ -5,6 +5,7 @@ import { UserClient } from "@/components/tables/user-tables/client";
 import axios from "axios";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 const breadcrumbItems = [{ title: "User Management", link: "/admin/user-mgmt" }];
 type paramsProps = {
@@ -27,7 +28,11 @@ export default function page({ searchParams }: paramsProps) {
     
     const fetchUser = async () => {
         try {
-            const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/user" + `?limit=${limit}&offset=${offset}` + (name ? `&search=${name}` : '') + (role ? `&role=${role}` : '') + (divisi ? `&division=${divisi}` : '' ))
+            const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + "/user" + `?limit=${limit}&offset=${offset}` + (name ? `&search=${name}` : '') + (role ? `&role=${role}` : '') + (divisi ? `&division=${divisi}` : '' ), {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get("authToken")}`
+                }
+            })
             const data = response.data.data
 
             setTotalData(response.data.total_data)

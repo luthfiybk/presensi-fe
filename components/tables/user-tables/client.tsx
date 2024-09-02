@@ -35,8 +35,7 @@ export const UserClient = ({ data, path, searchParams, total_data }: ProductsCli
     const name = searchParams.search || '';
     
 
-    const total_users = data.length;
-    const total_pages = Math.ceil(total_users / limit);
+    const total_pages = Math.ceil(total_data / limit);
 
     const [roles, setRoles] = useState([]);
     const [divisions,setDivisions] = useState([])
@@ -69,7 +68,7 @@ export const UserClient = ({ data, path, searchParams, total_data }: ProductsCli
         <>
             <div className="flex items-start justify-between">
                 <Heading
-                    title={`Users (${total_users})`}
+                    title={`Users (${total_data - 1})`}
                 />
                 <div className="space-x-3">
                     <Button
