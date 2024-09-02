@@ -29,16 +29,10 @@ function Modal({ link }: DialogProps) {
                         Lihat File
                     </Button>
                 </DialogTrigger>
-                <DialogContent className="h-5/6 w-full sm:h-3/4" suppressHydrationWarning>
-                    <div className="mt-5 pb-28 h-1/4">
+                <DialogContent className="flex justify-center items-center w-full h-full sm:h-3/4">
+                    <div className="w-full h-full">
                         <PDFReader fileUrl={link} />
                     </div>
-                    <DialogClose>
-                        <Button className="bg-red-500 hover:bg-red-400">
-                            <X className="mr-4" />
-                            Tutup
-                        </Button>
-                    </DialogClose>
                 </DialogContent>
             </Dialog>
         </>
@@ -111,7 +105,7 @@ export default function DetailIzinPage() {
         document.title = "Detail Izin"
     }, [])
 
-    console.log(changes)
+    console.log(izin?.[0]?.file_link, "file")
 
     return (
         <>

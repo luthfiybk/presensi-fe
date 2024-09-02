@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import axios from "axios"
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const breadcrumbItems = [{ title: "Pengajuan Izin", link: "/karyawan/pengajuan-izin" }];
 export default function PengajuanIzinPage() {
@@ -16,6 +16,8 @@ export default function PengajuanIzinPage() {
         keterangan: "",
         file: null
     })
+
+    const router = useRouter()
 
     const handleChange = (e: any) => {
         setForm({
@@ -50,7 +52,7 @@ export default function PengajuanIzinPage() {
 
             if (response.status === 201) {
                 toast.success("Pengajuan berhasil")
-                location.reload()
+                router.push("/karyawan/pengajuan-izin")
             }
 
         } catch (error: any) {

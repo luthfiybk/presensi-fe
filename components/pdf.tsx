@@ -13,7 +13,7 @@ export default function PDFReader({ fileUrl }: PDFReaderProps) {
     return (
         <>
             <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.js">
-                <div style={{ height: '40%' }}>
+                <div style={{ height: '100%', width: "100%", marginTop: "15px" }}>
                     <Viewer
                         fileUrl={fileUrl}
                         plugins={[defaultLayoutPluginInstance]}
